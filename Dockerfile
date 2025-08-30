@@ -1,38 +1,27 @@
-# Use the official Bun image
-FROM oven/bun:1 as base
-
-# Set working directory
+# Multi-stage build for static Astro site with Bun
+FROM oven/bun:1 AS base
 WORKDIR /app
 
-# Copy package files
-COPY package.json bun.lockb* ./
+# Copy package files for dependency installation
+COPY package.json bun.lockb ./
 
-# Install dependencies
+FROM base AS build-deps
 RUN bun install --frozen-lockfile
 
-# Copy source code
+FROM build-deps AS build
 COPY . .
-
-# Build the application
 RUN bun run build
 
-# Production stage
-FROM oven/bun:1-alpine as production
+# Production runtime using NGINX for static files
+FROM nginx:alpine AS runtime
 
-# Set working directory
-WORKDIR /app
+# Copy custom NGINX config
+COPY nginx.conf /etc/nginx/nginx.conf
 
-# Copy package files
-COPY package.json bun.lockb* ./
-
-# Install only production dependencies
-RUN bun install --frozen-lockfile --production
-
-# Copy built application
-COPY --from=base /app/dist ./dist
+# Copy built static files
+COPY --from=build /app/dist /usr/share/nginx/html
 
 # Expose port
-EXPOSE 3000
+EXPOSE 80
 
-# Start the application
-CMD ["bun", "run", "preview", "--host", "0.0.0.0", "--port", "3000"]
+# NGINX will start automatically
