@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .text-custom-text {
+    color: #dac094;
+  }
+  
+  .text-gruvbox-fg {
+    color: #dac094;
+  }
+}

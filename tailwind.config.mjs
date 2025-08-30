@@ -3,6 +3,10 @@ export default {
   content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
   theme: {
     extend: {
+      fontFamily: {
+        'mono': ['JetBrains Mono', 'Fira Code', 'Monaco', 'Consolas', 'monospace'],
+        'terminal': ['JetBrains Mono', 'Fira Code', 'Monaco', 'Consolas', 'monospace'],
+      },
       colors: {
         gruvbox: {
           dark: {
@@ -12,9 +16,9 @@ export default {
             bg2: '#504945',
             bg3: '#665c54',
             bg4: '#7c6f64',
-            fg: '#ebdbb2',
+            fg: '#dac094',
             fg0: '#fbf1c7',
-            fg1: '#ebdbb2',
+            fg1: '#dac094',
             fg2: '#d5c4a1',
             fg3: '#bdae93',
             fg4: '#a89984',
@@ -56,6 +60,9 @@ export default {
         'pulse-glow': 'pulseGlow 3s ease-in-out infinite',
         'float': 'float 6s ease-in-out infinite',
         'typing': 'typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite',
+        'terminal-blink': 'terminal-blink 1s step-end infinite',
+        'slide-in-left': 'slideInLeft 0.8s ease-out',
+        'slide-in-right': 'slideInRight 0.8s ease-out',
       },
       keyframes: {
         fadeIn: {
@@ -88,6 +95,20 @@ export default {
           'from, to': { borderColor: 'transparent' },
           '50%': { borderColor: 'currentColor' },
         },
+        'terminal-blink': {
+          '0%, 50%': { opacity: '1' },
+          '51%, 100%': { opacity: '0' },
+        },
+        'slideInLeft': {
+          '0%': { opacity: '0', transform: 'translateX(-20px)' },
+          '100%': { opacity: '1', transform: 'translateX(0)' },
+        },
+        'slideInRight': {
+          '0%': { opacity: '0', transform: 'translateX(20px)' },
+          '100%': { opacity: '1', transform: 'translateX(0)' },
+        },
+        // Custom text color for better readability
+        'custom-text': '#dac094',
       }
     },
   },
