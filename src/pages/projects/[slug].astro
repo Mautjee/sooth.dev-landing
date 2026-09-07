@@ -1,0 +1,48 @@
+---
+// Individual portfolio project page.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+import '../../styles/prose.css';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((project) => ({
+    params: { slug: project.id },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+const d = project.data;
+---
+
+<BaseLayout title={`${d.title} — SOOTH.dev`} description={d.summary}>
+  <article>
+    <header class="mb-8">
+      <a href="/projects" class="text-sm text-gruvbox-gray hover:text-gruvbox-yellow transition-colors">← Back to projects</a>
+      <div class="flex items-center gap-3 mt-4 flex-wrap">
+        <h1 class="text-3xl md:text-4xl font-bold text-gruvbox-yellow">{d.title}</h1>
+        {
+          d.featured && <span class="px-2 py-0.5 text-xs rounded-full bg-gruvbox-yellow text-gruvbox-dark-bg font-semibold">Featured</span>
+        }
+      </div>
+      <p class="mt-2 text-gruvbox-gray">{d.role} · {d.period}</p>
+      <div class="mt-4 flex flex-wrap gap-2">
+        {d.stack.map(item => (
+          <span class="px-2.5 py-1 text-xs rounded-full bg-gruvbox-dark-bg1 border border-gruvbox-dark-bg2 text-gruvbox-gray">{item}</span>
+        ))}
+      </div>
+      {
+        (d.repo || d.live) && (
+          <div class="mt-4 flex gap-4">
+            {d.repo && <a href={d.repo} target="_blank" rel="noopener noreferrer" class="text-gruvbox-blue hover:underline">Source ↗</a>}
+            {d.live && <a href={d.live} target="_blank" rel="noopener noreferrer" class="text-gruvbox-blue hover:underline">Live ↗</a>}
+          </div>
+        )
+      }
+    </header>
+
+    <div class="prose"><Content /></div>
+  </article>
+</BaseLayout>

@@ -1,0 +1,57 @@
+/* Shared prose typography for rendered markdown (blog posts + project pages). */
+.prose {
+  color: #ebdbb2;
+  line-height: 1.75;
+  font-size: 1.05rem;
+}
+.prose > * + * { margin-top: 1.1em; }
+.prose h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #fabd2f;
+  margin-top: 1.8em;
+  line-height: 1.3;
+}
+.prose h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #d5c4a1;
+  margin-top: 1.5em;
+}
+.prose a { color: #83a598; text-decoration: underline; text-underline-offset: 2px; }
+.prose a:hover { color: #fbf1c7; }
+.prose strong { color: #fbf1c7; }
+.prose blockquote {
+  border-left: 4px solid #fabd2f;
+  padding: 0.25em 0 0.25em 1em;
+  margin: 1.5em 0;
+  color: #bdae93;
+  font-style: italic;
+}
+.prose code {
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  background: #3c3836;
+  border: 1px solid #504945;
+  padding: 0.1em 0.4em;
+  border-radius: 4px;
+  font-size: 0.9em;
+  color: #d3869b;
+}
+.prose pre {
+  background: #1d2021;
+  border: 1px solid #504945;
+  border-radius: 8px;
+  padding: 1em 1.25em;
+  overflow-x: auto;
+  margin: 1.5em 0;
+}
+.prose pre code { background: transparent; border: none; padding: 0; color: #ebdbb2; }
+.prose ul, .prose ol { padding-left: 1.4em; }
+.prose ul { list-style: disc; }
+.prose ol { list-style: decimal; }
+.prose li { margin: 0.35em 0; }
+.prose img { border-radius: 8px; border: 1px solid #504945; }
+.prose hr { border-color: #504945; margin: 2em 0; }
+.prose table { width: 100%; border-collapse: collapse; }
+.prose th, .prose td { border: 1px solid #504945; padding: 0.5em 0.75em; text-align: left; }
+.prose th { background: #3c3836; color: #fbf1c7; }

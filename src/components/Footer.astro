@@ -1,0 +1,15 @@
+---
+// Shared footer — used by BaseLayout and the landing page.
+const year = new Date().getFullYear();
+---
+
+<footer class="w-full border-t border-gruvbox-dark-bg1 mt-8">
+  <div class="max-w-3xl mx-auto px-4 py-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-sm text-gruvbox-gray">
+    <p>© {year} Sooth.dev</p>
+    <div class="flex items-center gap-4">
+      <a href="https://github.com/Mautjee" target="_blank" rel="noopener noreferrer" class="hover:text-gruvbox-fg transition-colors">GitHub</a>
+      <a href="https://www.linkedin.com/in/mauro-eijsenring/" target="_blank" rel="noopener noreferrer" class="hover:text-gruvbox-fg transition-colors">LinkedIn</a>
+      <a href="mailto:sooth.dev@gmail.com" class="hover:text-gruvbox-fg transition-colors">Email</a>
+    </div>
+  </div>
+</footer>

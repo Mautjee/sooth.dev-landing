@@ -1,0 +1,42 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { formatDate } from '../../lib/dates';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<BaseLayout title="Blog — SOOTH.dev" description="Writing about infrastructure, AI agents, and building platforms.">
+  <header class="mb-10">
+    <h1 class="text-3xl md:text-4xl font-bold text-gruvbox-yellow">Blog</h1>
+    <p class="mt-2 text-gruvbox-gray">Notes on infrastructure, AI agents, and taking prototypes to platforms.</p>
+  </header>
+
+  {
+    posts.length === 0 && (
+      <p class="text-gruvbox-gray italic">No posts yet — the first one is on its way.</p>
+    )
+  }
+
+  <div class="space-y-3">
+    {posts.map(post => (
+      <a href={`/blog/${post.id}`} class="block p-5 bg-gruvbox-dark-bg1 hover:bg-gruvbox-dark-bg2 border border-gruvbox-dark-bg1 hover:border-gruvbox-dark-bg3 rounded-lg transition-colors group">
+        <div class="flex items-baseline justify-between gap-4">
+          <h2 class="text-lg font-semibold text-gruvbox-fg group-hover:text-gruvbox-yellow transition-colors">{post.data.title}</h2>
+          <time datetime={post.data.pubDate.toISOString()} class="text-xs text-gruvbox-gray whitespace-nowrap">{formatDate(post.data.pubDate)}</time>
+        </div>
+        <p class="mt-2 text-sm text-gruvbox-gray">{post.data.description}</p>
+        {
+          post.data.tags.length > 0 && (
+            <div class="mt-3 flex flex-wrap gap-2">
+              {post.data.tags.map(tag => (
+                <span class="px-2 py-0.5 text-xs rounded-full bg-gruvbox-dark-bg2 text-gruvbox-gray">{tag}</span>
+              ))}
+            </div>
+          )
+        }
+      </a>
+    ))}
+  </div>
+</BaseLayout>

@@ -1,10 +1,17 @@
 import { defineConfig } from 'astro/config';
-import tailwind from '@astrojs/tailwind';
+import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
-  integrations: [tailwind()],
+  vite: {
+    plugins: [tailwindcss()],
+  },
   server: {
     host: '0.0.0.0',
-    port: 3000
-  }
+    port: 3000,
+  },
+  markdown: {
+    shikiConfig: {
+      theme: 'github-dark',
+    },
+  },
 });

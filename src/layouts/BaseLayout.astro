@@ -1,0 +1,32 @@
+---
+// Base layout: HTML shell, nav, footer. Used by blog + projects pages.
+import ClientRouter from 'astro/components/ClientRouter.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+const { title = 'SOOTH.dev', description = 'Mauro Eijsenring — Developer' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+    <ClientRouter />
+  </head>
+  <body class="bg-gruvbox-dark-bg text-gruvbox-fg min-h-screen flex flex-col">
+    <Nav />
+    <main class="flex-1 w-full mx-auto max-w-3xl px-4 py-8">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

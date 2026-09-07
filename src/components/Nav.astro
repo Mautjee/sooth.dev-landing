@@ -1,0 +1,29 @@
+---
+// Shared top navigation — used by BaseLayout and the landing page.
+const path = Astro.url.pathname;
+
+function isActive(href: string): boolean {
+  if (href === '/') return path === '/';
+  return path.startsWith(href);
+}
+---
+
+<nav class="w-full border-b border-gruvbox-dark-bg1">
+  <div class="max-w-3xl mx-auto px-4 py-4 flex items-center justify-between">
+    <a href="/" class="font-bold text-gruvbox-yellow text-lg tracking-wide">SOOTH.dev</a>
+    <div class="flex items-center gap-5">
+      <a
+        href="/"
+        class={isActive('/') ? 'text-gruvbox-yellow font-medium' : 'text-gruvbox-gray hover:text-gruvbox-fg transition-colors'}
+      >Home</a>
+      <a
+        href="/blog"
+        class={isActive('/blog') ? 'text-gruvbox-yellow font-medium' : 'text-gruvbox-gray hover:text-gruvbox-fg transition-colors'}
+      >Blog</a>
+      <a
+        href="/projects"
+        class={isActive('/projects') ? 'text-gruvbox-yellow font-medium' : 'text-gruvbox-gray hover:text-gruvbox-fg transition-colors'}
+      >Projects</a>
+    </div>
+  </div>
+</nav>

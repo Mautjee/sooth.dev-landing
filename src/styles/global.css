@@ -1,0 +1,91 @@
+/* Tailwind v4 — CSS-first configuration.
+   The gruvbox palette that used to live in tailwind.config.mjs now lives here
+   as @theme custom properties. Remove/replace tailwind.config.mjs. */
+@import "tailwindcss";
+
+@theme {
+  /* gruvbox palette (migrated 1:1 from tailwind.config.mjs) */
+  --color-gruvbox-dark-bg: #282828;
+  --color-gruvbox-dark-bg0: #32302f;
+  --color-gruvbox-dark-bg1: #3c3836;
+  --color-gruvbox-dark-bg2: #504945;
+  --color-gruvbox-dark-bg3: #665c54;
+  --color-gruvbox-dark-bg4: #7c6f64;
+  --color-gruvbox-dark-fg: #ebdbb2;
+  --color-gruvbox-dark-fg0: #fbf1c7;
+  --color-gruvbox-dark-fg1: #ebdbb2;
+  --color-gruvbox-dark-fg2: #d5c4a1;
+  --color-gruvbox-dark-fg3: #bdae93;
+  --color-gruvbox-dark-fg4: #a89984;
+
+  --color-gruvbox-light-bg: #fbf1c7;
+  --color-gruvbox-light-bg0: #f9f5d7;
+  --color-gruvbox-light-bg1: #ebdbb2;
+  --color-gruvbox-light-bg2: #d5c4a1;
+  --color-gruvbox-light-bg3: #bdae93;
+  --color-gruvbox-light-bg4: #a89984;
+  --color-gruvbox-light-fg: #3c3836;
+  --color-gruvbox-light-fg0: #282828;
+  --color-gruvbox-light-fg1: #3c3836;
+  --color-gruvbox-light-fg2: #504945;
+  --color-gruvbox-light-fg3: #665c54;
+  --color-gruvbox-light-fg4: #7c6f64;
+
+  --color-gruvbox-red: #fb4934;
+  --color-gruvbox-green: #b8bb26;
+  --color-gruvbox-yellow: #fabd2f;
+  --color-gruvbox-blue: #83a598;
+  --color-gruvbox-purple: #d3869b;
+  --color-gruvbox-aqua: #8ec07c;
+  --color-gruvbox-orange: #fe8019;
+  --color-gruvbox-gray: #928374;
+
+  --color-gruvbox-bright-red: #fb4934;
+  --color-gruvbox-bright-green: #b8bb26;
+  --color-gruvbox-bright-yellow: #fabd2f;
+  --color-gruvbox-bright-blue: #83a598;
+  --color-gruvbox-bright-purple: #d3869b;
+  --color-gruvbox-bright-aqua: #8ec07c;
+  --color-gruvbox-bright-orange: #fe8019;
+
+  /* Animations used by the landing page */
+  --animate-fade-in: fadeIn 2s ease-in-out;
+  --animate-slide-up: slideUp 1.5s ease-out;
+  --animate-pulse-glow: pulseGlow 3s ease-in-out infinite;
+  --animate-float: float 6s ease-in-out infinite;
+
+  @keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  @keyframes slideUp {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pulseGlow {
+    0%, 100% {
+      text-shadow: 0 0 5px currentColor;
+      transform: scale(1);
+    }
+    50% {
+      text-shadow: 0 0 20px currentColor, 0 0 30px currentColor;
+      transform: scale(1.05);
+    }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background-color: #282828;
+    color: #ebdbb2;
+    font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+}
