@@ -43,14 +43,14 @@
 ### Block Explorer for the Aztec Network
 *Infrastructure · Kubernetes · Kafka · Frontend*
 
-My responsibilities for this project were setting up and maintaining the infrastructure: a Kubernetes cluster with multiple microservices communicating over a Kafka message bus. The frontend was also one of my responsibilities.
+Set up and maintained the production Kubernetes cluster with microservices talking over a Kafka message bus. Built and maintained several of the services end-to-end — including the `ethereum-listener` / `aztec-listener` indexer pipelines that keep our data in sync with L1 and L2 — plus the frontend, and per-service CI/CD across three live networks.
 
 🔗 [github.com/aztec-scan/chicmoz](https://github.com/aztec-scan/chicmoz)
 
 ### Migration from AWS Lambda to a Managed Kubernetes Cluster
 *Platform migration · GitOps · ArgoCD*
 
-When I started with this project the digital infrastructure was an unorganized set of unmanaged AWS Lambda functions. I introduced development, staging and production environments, created a standard development cycle for all developers to follow, set up a CD pipeline with ArgoCD as the continuous delivery tool, and extracted functionality from large services to create a clear separation of concern.
+Replaced an unorganized stack of unmanaged AWS Lambda functions with a managed Kubernetes platform — without downtime of the live production environment. Introduced development, staging and production environments, a standard development cycle, and an ArgoCD CD pipeline. Extracted functionality from large services into clear, separated units. Production stayed live on the old stack until the new platform was proven in staging, then cut over.
 
 *Private client — no public repository available.*
 
