@@ -50,7 +50,7 @@ _Sep 2015 – Sep 2016_
 
 _Infrastructure · Kubernetes · Kafka · Frontend_
 
-Set up and maintained the production Kubernetes cluster with microservices talking over a Kafka message bus. Built and maintained several of the services end-to-end — including the `ethereum-listener` / `aztec-listener` indexer pipelines that keep our data in sync with L1 and L2 — plus the frontend, and per-service CI/CD across three live networks.
+Set up and maintained the production Kubernetes cluster with microservices talking over a Kafka message bus. Built and maintained several of the services end-to-end including: listeners for Ethereum and Aztec network that keep our data in sync with the chain, frontend v1, and per-service CI/CD across three live networks (devnet, testnet and mainnet).
 
 🔗 [github.com/aztec-scan/chicmoz](https://github.com/aztec-scan/chicmoz)
 
@@ -58,15 +58,15 @@ Set up and maintained the production Kubernetes cluster with microservices talki
 
 _Frontend · Go backend · Data pipelines · Kubernetes_
 
-Built a liquid staking protocol for the Aztec Network with a 3-developer team. I owned the frontend and the Go backend services behind it, including the data pipelines powering the staking data users see. For the infrastructure I designed the block explorer's Kubernetes platform to run multiple applications on the same hardware — Olla became another workload on that platform instead of a whole new stack, saving infrastructure cost and setup time.
+Built a liquid staking protocol for the Aztec Network with a team of 3 developers. I owned the frontend and the Go backend services. The infrastructure is the same design I created for the block explorer so that we could run it on the same hardware but fully isolated from each other, saving cost on infrastructure hardware and setup time.
 
 🔗 [github.com/ollafinance/olla-ui](https://github.com/ollafinance/olla-ui)
 
 ### Migration from AWS Lambda to a Managed Kubernetes Cluster
 
-_Platform migration · GitOps · ArgoCD_
+_Platform migration · Platform design · GitOps · ArgoCD · Kubernetes_
 
-Replaced an unorganized stack of unmanaged AWS Lambda functions with a managed Kubernetes platform — without downtime of the live production environment. Introduced development, staging and production environments, a standard development cycle, and an ArgoCD CD pipeline. Extracted functionality from large services into clear, separated units. Production stayed live on the old stack until the new platform was proven in staging, then cut over.
+Replaced an unorganized stack of unmanaged AWS Lambda functions with a managed Kubernetes platform. Making sure there was no downtime of the live production environment. Introduced development, staging and production environments, a development cycle standard for the developer, and an ArgoCD CD pipeline. Extracted functionality from large services into clear, separated services written in Go.
 
 _Private client — no public repository available._
 
