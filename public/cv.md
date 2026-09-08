@@ -97,6 +97,16 @@ _Private client — no public repository available._
 
 ---
 
+## Hobbies
+
+- **Sports climbing** — Indoor and outdoor: bouldering, lead climbing, single pitch
+- **Endurance sports** — Running, cycling and swimming (triathlon)
+- **Cooking** — Hosting dinners at home, experimenting with fermenting and recipes
+- **Music** — DJing for myself and friends, discovering new artists, going to concerts
+- **Self-hosting** — Maintaining multiple VPS and a homelab hosting all sorts of apps and data
+
+---
+
 ## Skills & Competences
 
 ### Tech skills — advanced
