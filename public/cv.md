@@ -47,6 +47,13 @@ Set up and maintained the production Kubernetes cluster with microservices talki
 
 🔗 [github.com/aztec-scan/chicmoz](https://github.com/aztec-scan/chicmoz)
 
+### Liquid Staking Protocol — Olla Finance
+*Frontend · Go backend · Data pipelines · Kubernetes*
+
+Built a liquid staking protocol for the Aztec Network with a 3-developer team. I owned the frontend and the Go backend services behind it, including the data pipelines powering the staking data users see. For the infrastructure I designed the block explorer's Kubernetes platform to run multiple applications on the same hardware — Olla became another workload on that platform instead of a whole new stack, saving infrastructure cost and setup time.
+
+🔗 [github.com/ollafinance/olla-ui](https://github.com/ollafinance/olla-ui)
+
 ### Migration from AWS Lambda to a Managed Kubernetes Cluster
 *Platform migration · GitOps · ArgoCD*
 
