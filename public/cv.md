@@ -9,10 +9,9 @@
 | | |
 |---|---|
 | **Name** | Mauro Eijsenring |
-| **Address** | Hoefkade 55A, 2526 BP Den Haag |
-| **Phone** | +31 6 21659429 |
+| **Location** | Den Haag, Netherlands |
 | **Email** | [mauro@eijsenring.com](mailto:mauro@eijsenring.com) |
-| **Birthday** | 19-06-1997 (Voorburg) |
+| **LinkedIn** | [linkedin.com/in/mauro-eijsenring](https://www.linkedin.com/in/mauro-eijsenring/) |
 | **Nationality** | Dutch |
 
 ---
