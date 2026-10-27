@@ -23,7 +23,7 @@ validity, who fooled whom, and what happens when a player closes the tab.
 ## My role and what I owned
 
 I joined a month in and spent about four and a half months as backend engineer, from October 2023 to
-February 2024. I wrote **44 commits and 43 merged pull requests** out of 254, the third-largest
+February 2024. I wrote **44 commits and 43 of the repo's 254 pull requests**, the third-largest
 contributor behind Privilege Mendes and Marius Sili.
 
 What I owned:

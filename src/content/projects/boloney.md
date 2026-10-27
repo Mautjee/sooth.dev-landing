@@ -23,7 +23,7 @@ bid can be placed without ambiguity.
 
 ## My role and what I owned
 
-I was one of six regular contributors across roughly ten months, writing **87 of 1,209 commits**
+I was one of six regular contributors across roughly ten months, writing **87 of 1,228 commits**
 (about 7%). I was mid-pack by volume, full-stack across the Nakama backend and the React frontend.
 
 What I owned:
