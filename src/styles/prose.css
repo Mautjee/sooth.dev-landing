@@ -1,3 +1,16 @@
+/* Shiki emits var(--astro-code-*) with the css-variables theme; pin every
+   rendered token to the gruvbox palette so contrast is ours, not the theme's. */
+:root {
+  --astro-code-background: var(--color-surface-2);
+  --astro-code-foreground: var(--color-text);
+  --astro-code-token-comment: var(--color-code-comment);
+  --astro-code-token-constant: var(--color-code-constant);
+  --astro-code-token-function: var(--color-code-function);
+  --astro-code-token-keyword: var(--color-code-keyword);
+  --astro-code-token-punctuation: var(--color-text);
+  --astro-code-token-string-expression: var(--color-code-string);
+}
+
 /* Shared prose typography for rendered markdown (blog posts + project pages). */
 .prose {
   color: var(--color-text);
@@ -116,7 +129,11 @@
 }
 
 .prose table {
-  width: 100%;
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   border-collapse: collapse;
   font-size: 1rem;
 }

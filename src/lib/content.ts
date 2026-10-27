@@ -49,8 +49,7 @@ export function slugifyHeading(text: string): string {
     .replace(/[`*_~]/g, '')
     .replace(/[^\p{L}\p{N}\s-]/gu, '')
     .trim()
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-');
+    .replace(/\s+/g, '-');
 }
 
 export interface Heading {
