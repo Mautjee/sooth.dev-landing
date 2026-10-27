@@ -1,0 +1,1373 @@
+{
+  "pages": {
+    "home-a": {
+      "url": "file:///home/mauro/multica_workspaces/sooth-dev-83595e79d3b9/soot-27-b6fd81dfdf5c/workdir/sooth.dev-landing/docs/design/variant-a.html",
+      "widths": {
+        "360": {
+          "scrollWidth": 360,
+          "innerWidth": 360,
+          "overflow": false,
+          "h1Count": 1,
+          "h1": [
+            "Mauro Eijsenring"
+          ],
+          "smallestNavTarget": {
+            "text": "sooth.dev",
+            "w": 75,
+            "h": 44
+          },
+          "navTargets": [
+            {
+              "text": "sooth.dev",
+              "w": 75,
+              "h": 44
+            },
+            {
+              "text": "Menu",
+              "w": 74,
+              "h": 44
+            },
+            {
+              "text": "Home",
+              "w": 192,
+              "h": 48
+            },
+            {
+              "text": "Projects",
+              "w": 192,
+              "h": 48
+            },
+            {
+              "text": "Blog",
+              "w": 192,
+              "h": 48
+            },
+            {
+              "text": "About",
+              "w": 192,
+              "h": 48
+            },
+            {
+              "text": "CV",
+              "w": 192,
+              "h": 48
+            }
+          ],
+          "bodyFontSize": "18px",
+          "h1FontSize": "40px",
+          "metaFontSize": "14px",
+          "animationsAfterLoad": 0,
+          "jsBytes": 0,
+          "reduce": {
+            "animations": 0
+          }
+        },
+        "768": {
+          "scrollWidth": 768,
+          "innerWidth": 768,
+          "overflow": false,
+          "h1Count": 1,
+          "h1": [
+            "Mauro Eijsenring"
+          ],
+          "smallestNavTarget": {
+            "text": "sooth.dev",
+            "w": 75,
+            "h": 44
+          },
+          "navTargets": [
+            {
+              "text": "sooth.dev",
+              "w": 75,
+              "h": 44
+            },
+            {
+              "text": "Home",
+              "w": 65,
+              "h": 44
+            },
+            {
+              "text": "Projects",
+              "w": 80,
+              "h": 44
+            },
+            {
+              "text": "Blog",
+              "w": 54,
+              "h": 44
+            },
+            {
+              "text": "About",
+              "w": 64,
+              "h": 44
+            },
+            {
+              "text": "CV",
+              "w": 44,
+              "h": 44
+            }
+          ],
+          "bodyFontSize": "18px",
+          "h1FontSize": "46.08px",
+          "metaFontSize": "14px",
+          "animationsAfterLoad": 0,
+          "jsBytes": 0
+        },
+        "1280": {
+          "scrollWidth": 1280,
+          "innerWidth": 1280,
+          "overflow": false,
+          "h1Count": 1,
+          "h1": [
+            "Mauro Eijsenring"
+          ],
+          "smallestNavTarget": {
+            "text": "sooth.dev",
+            "w": 75,
+            "h": 44
+          },
+          "navTargets": [
+            {
+              "text": "sooth.dev",
+              "w": 75,
+              "h": 44
+            },
+            {
+              "text": "Home",
+              "w": 65,
+              "h": 44
+            },
+            {
+              "text": "Projects",
+              "w": 80,
+              "h": 44
+            },
+            {
+              "text": "Blog",
+              "w": 54,
+              "h": 44
+            },
+            {
+              "text": "About",
+              "w": 64,
+              "h": 44
+            },
+            {
+              "text": "CV",
+              "w": 44,
+              "h": 44
+            }
+          ],
+          "bodyFontSize": "18px",
+          "h1FontSize": "56px",
+          "metaFontSize": "14px",
+          "animationsAfterLoad": 0,
+          "jsBytes": 0
+        }
+      }
+    },
+    "home-b": {
+      "url": "file:///home/mauro/multica_workspaces/sooth-dev-83595e79d3b9/soot-27-b6fd81dfdf5c/workdir/sooth.dev-landing/docs/design/variant-b.html",
+      "widths": {
+        "360": {
+          "scrollWidth": 360,
+          "innerWidth": 360,
+          "overflow": false,
+          "h1Count": 1,
+          "h1": [
+            "Mauro Eijsenring"
+          ],
+          "smallestNavTarget": {
+            "text": "sooth.dev",
+            "w": 75,
+            "h": 44
+          },
+          "navTargets": [
+            {
+              "text": "sooth.dev",
+              "w": 75,
+              "h": 44
+            },
+            {
+              "text": "Menu",
+              "w": 74,
+              "h": 44
+            },
+            {
+              "text": "Home",
+              "w": 192,
+              "h": 48
+            },
+            {
+              "text": "Projects",
+              "w": 192,
+              "h": 48
+            },
+            {
+              "text": "Blog",
+              "w": 192,
+              "h": 48
+            },
+            {
+              "text": "About",
+              "w": 192,
+              "h": 48
+            },
+            {
+              "text": "CV",
+              "w": 192,
+              "h": 48
+            }
+          ],
+          "bodyFontSize": "18px",
+          "h1FontSize": "44px",
+          "metaFontSize": null,
+          "animationsAfterLoad": 0,
+          "jsBytes": 0,
+          "reduce": {
+            "animations": 0
+          }
+        },
+        "768": {
+          "scrollWidth": 768,
+          "innerWidth": 768,
+          "overflow": false,
+          "h1Count": 1,
+          "h1": [
+            "Mauro Eijsenring"
+          ],
+          "smallestNavTarget": {
+            "text": "sooth.dev",
+            "w": 75,
+            "h": 44
+          },
+          "navTargets": [
+            {
+              "text": "sooth.dev",
+              "w": 75,
+              "h": 44
+            },
+            {
+              "text": "Home",
+              "w": 65,
+              "h": 44
+            },
+            {
+              "text": "Projects",
+              "w": 80,
+              "h": 44
+            },
+            {
+              "text": "Blog",
+              "w": 54,
+              "h": 44
+            },
+            {
+              "text": "About",
+              "w": 64,
+              "h": 44
+            },
+            {
+              "text": "CV",
+              "w": 44,
+              "h": 44
+            }
+          ],
+          "bodyFontSize": "18px",
+          "h1FontSize": "44px",
+          "metaFontSize": null,
+          "animationsAfterLoad": 0,
+          "jsBytes": 0
+        },
+        "1280": {
+          "scrollWidth": 1280,
+          "innerWidth": 1280,
+          "overflow": false,
+          "h1Count": 1,
+          "h1": [
+            "Mauro Eijsenring"
+          ],
+          "smallestNavTarget": {
+            "text": "sooth.dev",
+            "w": 75,
+            "h": 44
+          },
+          "navTargets": [
+            {
+              "text": "sooth.dev",
+              "w": 75,
+              "h": 44
+            },
+            {
+              "text": "Home",
+              "w": 65,
+              "h": 44
+            },
+            {
+              "text": "Projects",
+              "w": 80,
+              "h": 44
+            },
+            {
+              "text": "Blog",
+              "w": 54,
+              "h": 44
+            },
+            {
+              "text": "About",
+              "w": 64,
+              "h": 44
+            },
+            {
+              "text": "CV",
+              "w": 44,
+              "h": 44
+            }
+          ],
+          "bodyFontSize": "18px",
+          "h1FontSize": "44px",
+          "metaFontSize": null,
+          "animationsAfterLoad": 0,
+          "jsBytes": 0
+        }
+      }
+    },
+    "project": {
+      "url": "file:///home/mauro/multica_workspaces/sooth-dev-83595e79d3b9/soot-27-b6fd81dfdf5c/workdir/sooth.dev-landing/docs/design/project.html",
+      "widths": {
+        "360": {
+          "scrollWidth": 360,
+          "innerWidth": 360,
+          "overflow": false,
+          "h1Count": 1,
+          "h1": [
+            "Aztecscan"
+          ],
+          "smallestNavTarget": {
+            "text": "sooth.dev",
+            "w": 75,
+            "h": 44
+          },
+          "navTargets": [
+            {
+              "text": "sooth.dev",
+              "w": 75,
+              "h": 44
+            },
+            {
+              "text": "Menu",
+              "w": 74,
+              "h": 44
+            },
+            {
+              "text": "Home",
+              "w": 192,
+              "h": 48
+            },
+            {
+              "text": "Projects",
+              "w": 192,
+              "h": 48
+            },
+            {
+              "text": "Blog",
+              "w": 192,
+              "h": 48
+            },
+            {
+              "text": "About",
+              "w": 192,
+              "h": 48
+            },
+            {
+              "text": "CV",
+              "w": 192,
+              "h": 48
+            }
+          ],
+          "bodyFontSize": "18px",
+          "h1FontSize": "44px",
+          "metaFontSize": null,
+          "animationsAfterLoad": 0,
+          "jsBytes": 0,
+          "reduce": {
+            "animations": 0
+          }
+        },
+        "768": {
+          "scrollWidth": 768,
+          "innerWidth": 768,
+          "overflow": false,
+          "h1Count": 1,
+          "h1": [
+            "Aztecscan"
+          ],
+          "smallestNavTarget": {
+            "text": "sooth.dev",
+            "w": 75,
+            "h": 44
+          },
+          "navTargets": [
+            {
+              "text": "sooth.dev",
+              "w": 75,
+              "h": 44
+            },
+            {
+              "text": "Home",
+              "w": 65,
+              "h": 44
+            },
+            {
+              "text": "Projects",
+              "w": 80,
+              "h": 44
+            },
+            {
+              "text": "Blog",
+              "w": 54,
+              "h": 44
+            },
+            {
+              "text": "About",
+              "w": 64,
+              "h": 44
+            },
+            {
+              "text": "CV",
+              "w": 44,
+              "h": 44
+            }
+          ],
+          "bodyFontSize": "18px",
+          "h1FontSize": "44px",
+          "metaFontSize": null,
+          "animationsAfterLoad": 0,
+          "jsBytes": 0
+        },
+        "1280": {
+          "scrollWidth": 1280,
+          "innerWidth": 1280,
+          "overflow": false,
+          "h1Count": 1,
+          "h1": [
+            "Aztecscan"
+          ],
+          "smallestNavTarget": {
+            "text": "sooth.dev",
+            "w": 75,
+            "h": 44
+          },
+          "navTargets": [
+            {
+              "text": "sooth.dev",
+              "w": 75,
+              "h": 44
+            },
+            {
+              "text": "Home",
+              "w": 65,
+              "h": 44
+            },
+            {
+              "text": "Projects",
+              "w": 80,
+              "h": 44
+            },
+            {
+              "text": "Blog",
+              "w": 54,
+              "h": 44
+            },
+            {
+              "text": "About",
+              "w": 64,
+              "h": 44
+            },
+            {
+              "text": "CV",
+              "w": 44,
+              "h": 44
+            }
+          ],
+          "bodyFontSize": "18px",
+          "h1FontSize": "44px",
+          "metaFontSize": null,
+          "animationsAfterLoad": 0,
+          "jsBytes": 0
+        }
+      }
+    },
+    "post": {
+      "url": "file:///home/mauro/multica_workspaces/sooth-dev-83595e79d3b9/soot-27-b6fd81dfdf5c/workdir/sooth.dev-landing/docs/design/post.html",
+      "widths": {
+        "360": {
+          "scrollWidth": 360,
+          "innerWidth": 360,
+          "overflow": false,
+          "h1Count": 1,
+          "h1": [
+            "Parallel-run, don't cut over"
+          ],
+          "smallestNavTarget": {
+            "text": "sooth.dev",
+            "w": 75,
+            "h": 44
+          },
+          "navTargets": [
+            {
+              "text": "sooth.dev",
+              "w": 75,
+              "h": 44
+            },
+            {
+              "text": "Menu",
+              "w": 74,
+              "h": 44
+            },
+            {
+              "text": "Home",
+              "w": 192,
+              "h": 48
+            },
+            {
+              "text": "Projects",
+              "w": 192,
+              "h": 48
+            },
+            {
+              "text": "Blog",
+              "w": 192,
+              "h": 48
+            },
+            {
+              "text": "About",
+              "w": 192,
+              "h": 48
+            },
+            {
+              "text": "CV",
+              "w": 192,
+              "h": 48
+            }
+          ],
+          "bodyFontSize": "18px",
+          "h1FontSize": "44px",
+          "metaFontSize": null,
+          "animationsAfterLoad": 0,
+          "jsBytes": 0,
+          "reduce": {
+            "animations": 0
+          }
+        },
+        "768": {
+          "scrollWidth": 768,
+          "innerWidth": 768,
+          "overflow": false,
+          "h1Count": 1,
+          "h1": [
+            "Parallel-run, don't cut over"
+          ],
+          "smallestNavTarget": {
+            "text": "sooth.dev",
+            "w": 75,
+            "h": 44
+          },
+          "navTargets": [
+            {
+              "text": "sooth.dev",
+              "w": 75,
+              "h": 44
+            },
+            {
+              "text": "Home",
+              "w": 65,
+              "h": 44
+            },
+            {
+              "text": "Projects",
+              "w": 80,
+              "h": 44
+            },
+            {
+              "text": "Blog",
+              "w": 54,
+              "h": 44
+            },
+            {
+              "text": "About",
+              "w": 64,
+              "h": 44
+            },
+            {
+              "text": "CV",
+              "w": 44,
+              "h": 44
+            }
+          ],
+          "bodyFontSize": "18px",
+          "h1FontSize": "44px",
+          "metaFontSize": null,
+          "animationsAfterLoad": 0,
+          "jsBytes": 0
+        },
+        "1280": {
+          "scrollWidth": 1280,
+          "innerWidth": 1280,
+          "overflow": false,
+          "h1Count": 1,
+          "h1": [
+            "Parallel-run, don't cut over"
+          ],
+          "smallestNavTarget": {
+            "text": "sooth.dev",
+            "w": 75,
+            "h": 44
+          },
+          "navTargets": [
+            {
+              "text": "sooth.dev",
+              "w": 75,
+              "h": 44
+            },
+            {
+              "text": "Home",
+              "w": 65,
+              "h": 44
+            },
+            {
+              "text": "Projects",
+              "w": 80,
+              "h": 44
+            },
+            {
+              "text": "Blog",
+              "w": 54,
+              "h": 44
+            },
+            {
+              "text": "About",
+              "w": 64,
+              "h": 44
+            },
+            {
+              "text": "CV",
+              "w": 44,
+              "h": 44
+            }
+          ],
+          "bodyFontSize": "18px",
+          "h1FontSize": "44px",
+          "metaFontSize": null,
+          "animationsAfterLoad": 0,
+          "jsBytes": 0
+        }
+      }
+    },
+    "blog": {
+      "url": "file:///home/mauro/multica_workspaces/sooth-dev-83595e79d3b9/soot-27-b6fd81dfdf5c/workdir/sooth.dev-landing/docs/design/blog.html",
+      "widths": {
+        "360": {
+          "scrollWidth": 360,
+          "innerWidth": 360,
+          "overflow": false,
+          "h1Count": 1,
+          "h1": [
+            "Writing"
+          ],
+          "smallestNavTarget": {
+            "text": "sooth.dev",
+            "w": 75,
+            "h": 44
+          },
+          "navTargets": [
+            {
+              "text": "sooth.dev",
+              "w": 75,
+              "h": 44
+            },
+            {
+              "text": "Menu",
+              "w": 74,
+              "h": 44
+            },
+            {
+              "text": "Home",
+              "w": 192,
+              "h": 48
+            },
+            {
+              "text": "Projects",
+              "w": 192,
+              "h": 48
+            },
+            {
+              "text": "Blog",
+              "w": 192,
+              "h": 48
+            },
+            {
+              "text": "About",
+              "w": 192,
+              "h": 48
+            },
+            {
+              "text": "CV",
+              "w": 192,
+              "h": 48
+            }
+          ],
+          "bodyFontSize": "18px",
+          "h1FontSize": "44px",
+          "metaFontSize": null,
+          "animationsAfterLoad": 0,
+          "jsBytes": 0,
+          "reduce": {
+            "animations": 0
+          }
+        },
+        "768": {
+          "scrollWidth": 768,
+          "innerWidth": 768,
+          "overflow": false,
+          "h1Count": 1,
+          "h1": [
+            "Writing"
+          ],
+          "smallestNavTarget": {
+            "text": "sooth.dev",
+            "w": 75,
+            "h": 44
+          },
+          "navTargets": [
+            {
+              "text": "sooth.dev",
+              "w": 75,
+              "h": 44
+            },
+            {
+              "text": "Home",
+              "w": 65,
+              "h": 44
+            },
+            {
+              "text": "Projects",
+              "w": 80,
+              "h": 44
+            },
+            {
+              "text": "Blog",
+              "w": 54,
+              "h": 44
+            },
+            {
+              "text": "About",
+              "w": 64,
+              "h": 44
+            },
+            {
+              "text": "CV",
+              "w": 44,
+              "h": 44
+            }
+          ],
+          "bodyFontSize": "18px",
+          "h1FontSize": "44px",
+          "metaFontSize": null,
+          "animationsAfterLoad": 0,
+          "jsBytes": 0
+        },
+        "1280": {
+          "scrollWidth": 1280,
+          "innerWidth": 1280,
+          "overflow": false,
+          "h1Count": 1,
+          "h1": [
+            "Writing"
+          ],
+          "smallestNavTarget": {
+            "text": "sooth.dev",
+            "w": 75,
+            "h": 44
+          },
+          "navTargets": [
+            {
+              "text": "sooth.dev",
+              "w": 75,
+              "h": 44
+            },
+            {
+              "text": "Home",
+              "w": 65,
+              "h": 44
+            },
+            {
+              "text": "Projects",
+              "w": 80,
+              "h": 44
+            },
+            {
+              "text": "Blog",
+              "w": 54,
+              "h": 44
+            },
+            {
+              "text": "About",
+              "w": 64,
+              "h": 44
+            },
+            {
+              "text": "CV",
+              "w": 44,
+              "h": 44
+            }
+          ],
+          "bodyFontSize": "18px",
+          "h1FontSize": "44px",
+          "metaFontSize": null,
+          "animationsAfterLoad": 0,
+          "jsBytes": 0
+        }
+      }
+    },
+    "projects": {
+      "url": "file:///home/mauro/multica_workspaces/sooth-dev-83595e79d3b9/soot-27-b6fd81dfdf5c/workdir/sooth.dev-landing/docs/design/projects.html",
+      "widths": {
+        "360": {
+          "scrollWidth": 360,
+          "innerWidth": 360,
+          "overflow": false,
+          "h1Count": 1,
+          "h1": [
+            "Projects"
+          ],
+          "smallestNavTarget": {
+            "text": "sooth.dev",
+            "w": 75,
+            "h": 44
+          },
+          "navTargets": [
+            {
+              "text": "sooth.dev",
+              "w": 75,
+              "h": 44
+            },
+            {
+              "text": "Menu",
+              "w": 74,
+              "h": 44
+            },
+            {
+              "text": "Home",
+              "w": 192,
+              "h": 48
+            },
+            {
+              "text": "Projects",
+              "w": 192,
+              "h": 48
+            },
+            {
+              "text": "Blog",
+              "w": 192,
+              "h": 48
+            },
+            {
+              "text": "About",
+              "w": 192,
+              "h": 48
+            },
+            {
+              "text": "CV",
+              "w": 192,
+              "h": 48
+            }
+          ],
+          "bodyFontSize": "18px",
+          "h1FontSize": "44px",
+          "metaFontSize": null,
+          "animationsAfterLoad": 0,
+          "jsBytes": 0,
+          "reduce": {
+            "animations": 0
+          }
+        },
+        "768": {
+          "scrollWidth": 768,
+          "innerWidth": 768,
+          "overflow": false,
+          "h1Count": 1,
+          "h1": [
+            "Projects"
+          ],
+          "smallestNavTarget": {
+            "text": "sooth.dev",
+            "w": 75,
+            "h": 44
+          },
+          "navTargets": [
+            {
+              "text": "sooth.dev",
+              "w": 75,
+              "h": 44
+            },
+            {
+              "text": "Home",
+              "w": 65,
+              "h": 44
+            },
+            {
+              "text": "Projects",
+              "w": 80,
+              "h": 44
+            },
+            {
+              "text": "Blog",
+              "w": 54,
+              "h": 44
+            },
+            {
+              "text": "About",
+              "w": 64,
+              "h": 44
+            },
+            {
+              "text": "CV",
+              "w": 44,
+              "h": 44
+            }
+          ],
+          "bodyFontSize": "18px",
+          "h1FontSize": "44px",
+          "metaFontSize": null,
+          "animationsAfterLoad": 0,
+          "jsBytes": 0
+        },
+        "1280": {
+          "scrollWidth": 1280,
+          "innerWidth": 1280,
+          "overflow": false,
+          "h1Count": 1,
+          "h1": [
+            "Projects"
+          ],
+          "smallestNavTarget": {
+            "text": "sooth.dev",
+            "w": 75,
+            "h": 44
+          },
+          "navTargets": [
+            {
+              "text": "sooth.dev",
+              "w": 75,
+              "h": 44
+            },
+            {
+              "text": "Home",
+              "w": 65,
+              "h": 44
+            },
+            {
+              "text": "Projects",
+              "w": 80,
+              "h": 44
+            },
+            {
+              "text": "Blog",
+              "w": 54,
+              "h": 44
+            },
+            {
+              "text": "About",
+              "w": 64,
+              "h": 44
+            },
+            {
+              "text": "CV",
+              "w": 44,
+              "h": 44
+            }
+          ],
+          "bodyFontSize": "18px",
+          "h1FontSize": "44px",
+          "metaFontSize": null,
+          "animationsAfterLoad": 0,
+          "jsBytes": 0
+        }
+      }
+    },
+    "about": {
+      "url": "file:///home/mauro/multica_workspaces/sooth-dev-83595e79d3b9/soot-27-b6fd81dfdf5c/workdir/sooth.dev-landing/docs/design/about.html",
+      "widths": {
+        "360": {
+          "scrollWidth": 360,
+          "innerWidth": 360,
+          "overflow": false,
+          "h1Count": 1,
+          "h1": [
+            "About"
+          ],
+          "smallestNavTarget": {
+            "text": "sooth.dev",
+            "w": 75,
+            "h": 44
+          },
+          "navTargets": [
+            {
+              "text": "sooth.dev",
+              "w": 75,
+              "h": 44
+            },
+            {
+              "text": "Menu",
+              "w": 74,
+              "h": 44
+            },
+            {
+              "text": "Home",
+              "w": 192,
+              "h": 48
+            },
+            {
+              "text": "Projects",
+              "w": 192,
+              "h": 48
+            },
+            {
+              "text": "Blog",
+              "w": 192,
+              "h": 48
+            },
+            {
+              "text": "About",
+              "w": 192,
+              "h": 48
+            },
+            {
+              "text": "CV",
+              "w": 192,
+              "h": 48
+            }
+          ],
+          "bodyFontSize": "18px",
+          "h1FontSize": "44px",
+          "metaFontSize": null,
+          "animationsAfterLoad": 0,
+          "jsBytes": 0,
+          "reduce": {
+            "animations": 0
+          }
+        },
+        "768": {
+          "scrollWidth": 768,
+          "innerWidth": 768,
+          "overflow": false,
+          "h1Count": 1,
+          "h1": [
+            "About"
+          ],
+          "smallestNavTarget": {
+            "text": "sooth.dev",
+            "w": 75,
+            "h": 44
+          },
+          "navTargets": [
+            {
+              "text": "sooth.dev",
+              "w": 75,
+              "h": 44
+            },
+            {
+              "text": "Home",
+              "w": 65,
+              "h": 44
+            },
+            {
+              "text": "Projects",
+              "w": 80,
+              "h": 44
+            },
+            {
+              "text": "Blog",
+              "w": 54,
+              "h": 44
+            },
+            {
+              "text": "About",
+              "w": 64,
+              "h": 44
+            },
+            {
+              "text": "CV",
+              "w": 44,
+              "h": 44
+            }
+          ],
+          "bodyFontSize": "18px",
+          "h1FontSize": "44px",
+          "metaFontSize": null,
+          "animationsAfterLoad": 0,
+          "jsBytes": 0
+        },
+        "1280": {
+          "scrollWidth": 1280,
+          "innerWidth": 1280,
+          "overflow": false,
+          "h1Count": 1,
+          "h1": [
+            "About"
+          ],
+          "smallestNavTarget": {
+            "text": "sooth.dev",
+            "w": 75,
+            "h": 44
+          },
+          "navTargets": [
+            {
+              "text": "sooth.dev",
+              "w": 75,
+              "h": 44
+            },
+            {
+              "text": "Home",
+              "w": 65,
+              "h": 44
+            },
+            {
+              "text": "Projects",
+              "w": 80,
+              "h": 44
+            },
+            {
+              "text": "Blog",
+              "w": 54,
+              "h": 44
+            },
+            {
+              "text": "About",
+              "w": 64,
+              "h": 44
+            },
+            {
+              "text": "CV",
+              "w": 44,
+              "h": 44
+            }
+          ],
+          "bodyFontSize": "18px",
+          "h1FontSize": "44px",
+          "metaFontSize": null,
+          "animationsAfterLoad": 0,
+          "jsBytes": 0
+        }
+      }
+    },
+    "about-b": {
+      "url": "file:///home/mauro/multica_workspaces/sooth-dev-83595e79d3b9/soot-27-b6fd81dfdf5c/workdir/sooth.dev-landing/docs/design/about-b.html",
+      "widths": {
+        "360": {
+          "scrollWidth": 360,
+          "innerWidth": 360,
+          "overflow": false,
+          "h1Count": 1,
+          "h1": [
+            "About"
+          ],
+          "smallestNavTarget": {
+            "text": "sooth.dev",
+            "w": 75,
+            "h": 44
+          },
+          "navTargets": [
+            {
+              "text": "sooth.dev",
+              "w": 75,
+              "h": 44
+            },
+            {
+              "text": "Menu",
+              "w": 74,
+              "h": 44
+            },
+            {
+              "text": "Home",
+              "w": 192,
+              "h": 48
+            },
+            {
+              "text": "Projects",
+              "w": 192,
+              "h": 48
+            },
+            {
+              "text": "Blog",
+              "w": 192,
+              "h": 48
+            },
+            {
+              "text": "About",
+              "w": 192,
+              "h": 48
+            },
+            {
+              "text": "CV",
+              "w": 192,
+              "h": 48
+            }
+          ],
+          "bodyFontSize": "18px",
+          "h1FontSize": "44px",
+          "metaFontSize": null,
+          "animationsAfterLoad": 0,
+          "jsBytes": 0,
+          "reduce": {
+            "animations": 0
+          }
+        },
+        "768": {
+          "scrollWidth": 768,
+          "innerWidth": 768,
+          "overflow": false,
+          "h1Count": 1,
+          "h1": [
+            "About"
+          ],
+          "smallestNavTarget": {
+            "text": "sooth.dev",
+            "w": 75,
+            "h": 44
+          },
+          "navTargets": [
+            {
+              "text": "sooth.dev",
+              "w": 75,
+              "h": 44
+            },
+            {
+              "text": "Home",
+              "w": 65,
+              "h": 44
+            },
+            {
+              "text": "Projects",
+              "w": 80,
+              "h": 44
+            },
+            {
+              "text": "Blog",
+              "w": 54,
+              "h": 44
+            },
+            {
+              "text": "About",
+              "w": 64,
+              "h": 44
+            },
+            {
+              "text": "CV",
+              "w": 44,
+              "h": 44
+            }
+          ],
+          "bodyFontSize": "18px",
+          "h1FontSize": "44px",
+          "metaFontSize": null,
+          "animationsAfterLoad": 0,
+          "jsBytes": 0
+        },
+        "1280": {
+          "scrollWidth": 1280,
+          "innerWidth": 1280,
+          "overflow": false,
+          "h1Count": 1,
+          "h1": [
+            "About"
+          ],
+          "smallestNavTarget": {
+            "text": "sooth.dev",
+            "w": 75,
+            "h": 44
+          },
+          "navTargets": [
+            {
+              "text": "sooth.dev",
+              "w": 75,
+              "h": 44
+            },
+            {
+              "text": "Home",
+              "w": 65,
+              "h": 44
+            },
+            {
+              "text": "Projects",
+              "w": 80,
+              "h": 44
+            },
+            {
+              "text": "Blog",
+              "w": 54,
+              "h": 44
+            },
+            {
+              "text": "About",
+              "w": 64,
+              "h": 44
+            },
+            {
+              "text": "CV",
+              "w": 44,
+              "h": 44
+            }
+          ],
+          "bodyFontSize": "18px",
+          "h1FontSize": "44px",
+          "metaFontSize": null,
+          "animationsAfterLoad": 0,
+          "jsBytes": 0
+        }
+      }
+    },
+    "home-a-nojs": {
+      "h1Count": 1,
+      "firstSentence": [
+        "Mauro Eijsenring",
+        "I build and run the platform behind the product — Kubernetes, CI/CD, and lately the guardrails that let AI agents near production.",
+        "Open to freelance platform and infrastructure work.",
+        "678"
+      ],
+      "textLength": 2013,
+      "scripts": 0
+    },
+    "home-a-reduced": {
+      "animations": 0,
+      "linkTransition": "1e-05s"
+    }
+  },
+  "og": {
+    "home": {
+      "bytes": 43495,
+      "path": "/home/mauro/multica_workspaces/sooth-dev-83595e79d3b9/soot-27-b6fd81dfdf5c/workdir/sooth.dev-landing/public/og/home.png"
+    },
+    "about": {
+      "bytes": 60476,
+      "path": "/home/mauro/multica_workspaces/sooth-dev-83595e79d3b9/soot-27-b6fd81dfdf5c/workdir/sooth.dev-landing/public/og/about.png"
+    },
+    "blog": {
+      "bytes": 55940,
+      "path": "/home/mauro/multica_workspaces/sooth-dev-83595e79d3b9/soot-27-b6fd81dfdf5c/workdir/sooth.dev-landing/public/og/blog.png"
+    },
+    "post": {
+      "bytes": 48412,
+      "path": "/home/mauro/multica_workspaces/sooth-dev-83595e79d3b9/soot-27-b6fd81dfdf5c/workdir/sooth.dev-landing/public/og/post.png"
+    },
+    "projects": {
+      "bytes": 55342,
+      "path": "/home/mauro/multica_workspaces/sooth-dev-83595e79d3b9/soot-27-b6fd81dfdf5c/workdir/sooth.dev-landing/public/og/projects.png"
+    },
+    "project": {
+      "bytes": 47696,
+      "path": "/home/mauro/multica_workspaces/sooth-dev-83595e79d3b9/soot-27-b6fd81dfdf5c/workdir/sooth.dev-landing/public/og/project.png"
+    }
+  }
+}

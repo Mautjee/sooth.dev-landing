@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Aztecscan — sooth.dev</title>
+    <meta
+      name="description"
+      content="CI/CD and production Kubernetes for the Aztec privacy-L2 block explorer: 678 commits, 9 services, 3 live networks, migrated service by service."
+    />
+    <link rel="canonical" href="https://sooth.dev/projects/aztecscan" />
+    <link rel="stylesheet" href="proto.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+      <div class="wrap site-header__inner">
+        <a class="wordmark" href="/">sooth.dev</a>
+        <nav class="nav" aria-label="Primary">
+          <ul class="nav__list">
+            <li><a href="/">Home</a></li>
+            <li><a href="/projects" aria-current="page">Projects</a></li>
+            <li><a href="/blog">Blog</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/cv.pdf">CV</a></li>
+          </ul>
+        </nav>
+        <details class="nav__mobile">
+          <summary>Menu</summary>
+          <nav class="nav__mobile-panel" aria-label="Primary">
+            <a href="/">Home</a>
+            <a href="/projects" aria-current="page">Projects</a>
+            <a href="/blog">Blog</a>
+            <a href="/about">About</a>
+            <a href="/cv.pdf">CV</a>
+          </nav>
+        </details>
+      </div>
+    </header>
+
+    <main id="main">
+      <header class="page-head wrap">
+        <a class="backlink" href="/projects">← All projects</a>
+        <h1>Aztecscan</h1>
+        <p class="lede">
+          CI/CD, production Kubernetes and full-stack work on the block explorer
+          for Aztec, a privacy-focused L2 — 678 commits over 21 months.
+        </p>
+        <p class="meta-row">
+          <span>Infrastructure &amp; full-stack</span>
+          <span>Sep 2024 – Jun 2026</span>
+          <span>678 / 1,812 commits · 128 merged PRs</span>
+          <span>Completed</span>
+          <a href="https://github.com/aztec-scan/chicmoz">Repository ↗</a>
+        </p>
+        <ul class="chips">
+          <li>TypeScript</li>
+          <li>Go</li>
+          <li>Kafka</li>
+          <li>Kubernetes</li>
+          <li>GitHub Actions</li>
+          <li>Envoy Gateway</li>
+        </ul>
+      </header>
+
+      <div class="wrap reading">
+        <div class="reading__body">
+        <article class="prose">
+          <h2 id="problem">The problem</h2>
+          <p>
+            A privacy L2 moves fast and hides most of its interesting state. The
+            explorer has to keep up with a protocol that was not version-stable:
+            over 21 months we tracked more than ten Aztec releases, and three live
+            networks deliberately ran different protocol versions at the same
+            time. The delivery pipeline had to carry all of that without freezing
+            the product.
+          </p>
+
+          <h2 id="role">My role and what I owned</h2>
+          <p>
+            I was the second engineer on Aztecscan and stayed for 21 months —
+            678 of the repo's 1,812 commits (about 37%), and 128 merged pull
+            requests. I was not the project lead. Filip started the repo and is
+            the largest contributor; the database schema was primarily his.
+          </p>
+          <p>
+            What I owned: the per-service CI/CD workflows, the production
+            Kubernetes manifests for the explorer API, UI, websocket publisher,
+            listeners and gateways, the migration off Skaffold, and the AI-agent
+            tooling — a 296-line <code>devops.md</code> agent persona covering the
+            repo's Kafka conventions and release process.
+          </p>
+
+          <h2 id="hard-part">The hard part</h2>
+          <p>
+            Migrating from Skaffold to GitHub Actions plus Kustomize, one service
+            at a time, with no freeze. <code>explorer-ui-v2</code> was the live
+            pilot; the pattern was then copied to seven more services while the
+            old pipeline kept deploying the rest.
+          </p>
+          <p>
+            The decision that cost the most was trusting Kustomize to rename
+            consistently. <code>nameSuffix</code> rewrites <code>metadata.name</code>,
+            but it does not rewrite <code>HTTPRoute.spec.rules[].backendRefs[].name</code>.
+            Traffic routed silently to a service that no longer existed. The
+            "obvious" alternative — hand-editing every reference per overlay —
+            was rejected because it drifts the moment someone forgets, but the
+            accepted cost is a hardcoded suffixed name that must always match.
+          </p>
+
+          <pre><code># services/explorer-ui/k8s/overlays/mainnet/kustomization.yaml
+nameSuffix: -mainnet
+patches:
+  - target: { kind: HTTPRoute, name: explorer-ui }
+    patch: |-
+      - op: replace
+        path: /spec/rules/0/backendRefs/0/name
+        value: explorer-ui-mainnet   # must match nameSuffix exactly
+
+$ kubectl kustomize services/explorer-ui/k8s/overlays/mainnet \
+    | yq '.spec.rules[0].backendRefs[0].name'
+explorer-ui-mainnet</code></pre>
+
+          <h2 id="outcome">Outcome</h2>
+          <p>
+            Every service now owns its Dockerfile and a path-filtered workflow;
+            the repo carries 9 services and 11 shared packages across 5
+            environments. The CI/CD migration landed as PR #625: +4,925 / −80
+            lines over 79 files. The three live networks kept deploying
+            throughout.
+          </p>
+
+          <h2 id="differently">What I'd do differently</h2>
+          <p>
+            The migration document, 459 lines long, recorded both footguns
+            <em>after</em> they bit. The overlay invariant — every
+            <code>backendRefs</code> name is the base name plus the overlay's
+            suffix — should have been written down before the first service
+            moved, and checked by one command rather than by whoever remembered.
+          </p>
+
+        </article>
+
+        <div class="related">
+          <p class="related__title">Related</p>
+          <ul class="related__list">
+            <li><a href="/blog/ci-cd-service-by-service">Rewriting CI/CD service-by-service, without a freeze</a></li>
+            <li><a href="/blog/parallel-run">Parallel-run, don't cut over</a></li>
+          </ul>
+        </div>
+        </div>
+
+        <aside class="rail" aria-label="Project details">
+          <div class="rail__row">
+            <span class="rail__label">Role</span>
+            <span class="rail__value">Infrastructure &amp; full-stack engineer</span>
+          </div>
+          <div class="rail__row">
+            <span class="rail__label">Period</span>
+            <span class="rail__value">Sep 2024 – Jun 2026</span>
+          </div>
+          <div class="rail__row">
+            <span class="rail__label">Contribution</span>
+            <span class="rail__value">678 / 1,812 commits · 128 merged PRs</span>
+          </div>
+          <div class="rail__row">
+            <span class="rail__label">Stack</span>
+            <span class="rail__value">TypeScript, Go, Kafka, Postgres, Kubernetes</span>
+          </div>
+          <div class="rail__row">
+            <span class="rail__label">Status</span>
+            <span class="rail__value">Completed</span>
+          </div>
+          <div class="rail__row">
+            <span class="rail__label">Links</span>
+            <span class="rail__value"><a href="https://github.com/aztec-scan/chicmoz">Repository ↗</a></span>
+          </div>
+          <nav class="rail__row" aria-label="On this page">
+            <span class="rail__label">On this page</span>
+            <div class="rail__links">
+              <a href="#problem">The problem</a>
+              <a href="#role">My role and what I owned</a>
+              <a href="#hard-part">The hard part</a>
+              <a href="#outcome">Outcome</a>
+              <a href="#differently">What I'd do differently</a>
+            </div>
+          </nav>
+        </aside>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap site-footer__inner">
+        <p class="site-footer__name">sooth.dev</p>
+        <nav class="site-footer__links" aria-label="Elsewhere">
+          <a href="mailto:sooth.dev@gmail.com">Email</a>
+          <a href="https://github.com/Mautjee">GitHub</a>
+          <a href="https://www.linkedin.com/in/mauro-eijsenring/">LinkedIn</a>
+          <a href="/about">About</a>
+          <a href="/rss.xml">RSS</a>
+        </nav>
+        <p class="site-footer__legal">© 2026 Mauro Eijsenring · built with Astro</p>
+      </div>
+    </footer>
+  </body>
+</html>

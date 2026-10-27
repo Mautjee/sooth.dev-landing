@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Projects — sooth.dev</title>
+    <meta
+      name="description"
+      content="Case studies with commits, PRs and the decisions that cost something: Aztecscan, The Grid, Bot Busters, Boloney and Olla Finance."
+    />
+    <link rel="canonical" href="https://sooth.dev/projects" />
+    <link rel="stylesheet" href="proto.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+      <div class="wrap site-header__inner">
+        <a class="wordmark" href="/">sooth.dev</a>
+        <nav class="nav" aria-label="Primary">
+          <ul class="nav__list">
+            <li><a href="/">Home</a></li>
+            <li><a href="/projects" aria-current="page">Projects</a></li>
+            <li><a href="/blog">Blog</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/cv.pdf">CV</a></li>
+          </ul>
+        </nav>
+        <details class="nav__mobile">
+          <summary>Menu</summary>
+          <nav class="nav__mobile-panel" aria-label="Primary">
+            <a href="/">Home</a>
+            <a href="/projects" aria-current="page">Projects</a>
+            <a href="/blog">Blog</a>
+            <a href="/about">About</a>
+            <a href="/cv.pdf">CV</a>
+          </nav>
+        </details>
+      </div>
+    </header>
+
+    <main id="main">
+      <header class="page-head wrap">
+        <h1>Projects</h1>
+        <p class="lede">
+          Prototypes turned into platforms. Five case studies, each with the
+          commits, pull requests and decisions that cost something.
+        </p>
+      </header>
+
+      <div class="wrap">
+        <div class="project-grid">
+          <article class="project-card project-card--featured">
+            <p class="project-card__meta">
+              <span>2024–2026</span><span>Infrastructure &amp; full-stack</span><span>Completed</span>
+            </p>
+            <h2 class="project-card__title"><a href="/projects/aztecscan">Aztecscan</a></h2>
+            <p class="project-card__outcome">
+              CI/CD and production Kubernetes for a privacy-L2 block explorer —
+              9 services across 3 live networks, migrated service by service
+              without a freeze. 678 of the repo's 1,812 commits.
+            </p>
+            <ul class="chips">
+              <li>Kubernetes</li>
+              <li>Kafka</li>
+              <li>GitHub Actions</li>
+              <li>TypeScript</li>
+            </ul>
+          </article>
+
+          <article class="project-card">
+            <p class="project-card__meta">
+              <span>2025–2026</span><span>Contractor · platform</span><span>Private</span>
+            </p>
+            <h2 class="project-card__title"><a href="/projects/okutama">The Grid — API platform</a></h2>
+            <p class="project-card__outcome">
+              A client gamedata API pulled off Lambda and App Runner onto
+              Kubernetes, one environment at a time — 12 services, and a governed
+              data path for AI agents.
+            </p>
+            <ul class="chips">
+              <li>EKS</li>
+              <li>ArgoCD</li>
+              <li>Envoy Gateway</li>
+              <li>MCP</li>
+            </ul>
+          </article>
+
+          <article class="project-card">
+            <p class="project-card__meta">
+              <span>2023–2024</span><span>Backend engineer</span><span>Completed</span>
+            </p>
+            <h2 class="project-card__title"><a href="/projects/bot-busters">Bot Busters</a></h2>
+            <p class="project-card__outcome">
+              The match, scoring and achievements engine a realtime
+              social-deduction game runs on — 43 PRs, eight achievements, one
+              state machine.
+            </p>
+            <ul class="chips">
+              <li>TypeScript</li>
+              <li>Next.js</li>
+              <li>Postgres</li>
+              <li>tRPC</li>
+            </ul>
+          </article>
+
+          <article class="project-card">
+            <p class="project-card__meta">
+              <span>2022–2023</span><span>Full-stack</span><span>Completed</span>
+            </p>
+            <h2 class="project-card__title"><a href="/projects/boloney">Boloney!</a></h2>
+            <p class="project-card__outcome">
+              Two generations of a realtime Liar's Dice match loop — turn timers,
+              AFK recovery, six power-ups — on stock Nakama. 87 commits of 1,209.
+            </p>
+            <ul class="chips">
+              <li>Nakama</li>
+              <li>TypeScript</li>
+              <li>Realtime</li>
+            </ul>
+          </article>
+
+          <article class="project-card">
+            <p class="project-card__meta">
+              <span>2025–2026</span><span>Frontend &amp; backend</span><span>Completed</span>
+            </p>
+            <h2 class="project-card__title"><a href="/projects/olla">Olla Finance</a></h2>
+            <p class="project-card__outcome">
+              Liquid staking for the Aztec L2: the public interface, the Go
+              services behind it, and the data pipelines that keep staking data
+              accurate.
+            </p>
+            <ul class="chips">
+              <li>React</li>
+              <li>Go</li>
+              <li>Kubernetes</li>
+            </ul>
+          </article>
+        </div>
+
+        <p class="index-contact">
+          Have a platform that needs this? <a href="mailto:sooth.dev@gmail.com">sooth.dev@gmail.com</a>
+        </p>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap site-footer__inner">
+        <p class="site-footer__name">sooth.dev</p>
+        <nav class="site-footer__links" aria-label="Elsewhere">
+          <a href="mailto:sooth.dev@gmail.com">Email</a>
+          <a href="https://github.com/Mautjee">GitHub</a>
+          <a href="https://www.linkedin.com/in/mauro-eijsenring/">LinkedIn</a>
+          <a href="/about">About</a>
+          <a href="/rss.xml">RSS</a>
+        </nav>
+        <p class="site-footer__legal">© 2026 Mauro Eijsenring · built with Astro</p>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Writing — sooth.dev</title>
+    <meta
+      name="description"
+      content="Field notes on platforms, migrations, and the guardrails around AI agents — each with the command, commit or tradeoff that backs it."
+    />
+    <link rel="canonical" href="https://sooth.dev/blog" />
+    <link rel="stylesheet" href="proto.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+      <div class="wrap site-header__inner">
+        <a class="wordmark" href="/">sooth.dev</a>
+        <nav class="nav" aria-label="Primary">
+          <ul class="nav__list">
+            <li><a href="/">Home</a></li>
+            <li><a href="/projects">Projects</a></li>
+            <li><a href="/blog" aria-current="page">Blog</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/cv.pdf">CV</a></li>
+          </ul>
+        </nav>
+        <details class="nav__mobile">
+          <summary>Menu</summary>
+          <nav class="nav__mobile-panel" aria-label="Primary">
+            <a href="/">Home</a>
+            <a href="/projects">Projects</a>
+            <a href="/blog" aria-current="page">Blog</a>
+            <a href="/about">About</a>
+            <a href="/cv.pdf">CV</a>
+          </nav>
+        </details>
+      </div>
+    </header>
+
+    <main id="main">
+      <header class="page-head wrap">
+        <h1>Writing</h1>
+        <p class="lede">
+          Field notes on platforms, migrations and the guardrails around AI
+          agents. Written from the work, with the command, commit or tradeoff
+          that backs each one.
+        </p>
+        <p class="meta-row">
+          <a href="/rss.xml">RSS feed</a>
+        </p>
+      </header>
+
+      <div class="wrap">
+        <div class="index-list">
+          <article class="post-row">
+            <p class="post-row__meta">
+              <time datetime="2026-10-22">2026-10-22</time>
+              <span>7 min read</span>
+            </p>
+            <div>
+              <h2 class="post-row__title">
+                <a href="/blog/fresh-clone-bugs">Three bugs a fresh clone found that code review didn't</a>
+              </h2>
+              <p class="post-row__desc">
+                An FK ordering violation, a silent duplicate block write and a
+                Zod wire-format mismatch — all invisible to review, all obvious
+                the moment the repo ran from scratch.
+              </p>
+              <ul class="chips">
+                <li>postgres</li>
+                <li>testing</li>
+                <li>typescript</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="post-row">
+            <p class="post-row__meta">
+              <time datetime="2026-10-21">2026-10-21</time>
+              <span>7 min read</span>
+            </p>
+            <div>
+              <h2 class="post-row__title">
+                <a href="/blog/gateway-api-migration">Migrating ingress to the Gateway API</a>
+              </h2>
+              <p class="post-row__desc">
+                Moving a live platform from nginx to Envoy Gateway one environment
+                at a time, and why the old path stayed up for another ten weeks.
+              </p>
+              <ul class="chips">
+                <li>kubernetes</li>
+                <li>envoy</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="post-row">
+            <p class="post-row__meta">
+              <time datetime="2026-10-20">2026-10-20</time>
+              <span>8 min read</span>
+            </p>
+            <div>
+              <h2 class="post-row__title">
+                <a href="/blog/local-dev-environment">The 10-minute local development environment</a>
+              </h2>
+              <p class="post-row__desc">
+                One command, a full multi-service Minikube stack, sanitised
+                production data, and three frontends you can attach to it.
+              </p>
+              <ul class="chips">
+                <li>kubernetes</li>
+                <li>minikube</li>
+                <li>developer-experience</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="post-row">
+            <p class="post-row__meta">
+              <time datetime="2026-09-07">2026-09-07</time>
+              <span>2 min read</span>
+            </p>
+            <div>
+              <h2 class="post-row__title">
+                <a href="/blog/documentation-drift">Documentation drift, caught by audit</a>
+              </h2>
+              <p class="post-row__desc">
+                My architecture docs said our production nodes were one size and
+                one cloud; reality differed in all four details.
+              </p>
+              <ul class="chips">
+                <li>documentation</li>
+                <li>aws</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="post-row">
+            <p class="post-row__meta">
+              <time datetime="2026-09-06">2026-09-06</time>
+              <span>2 min read</span>
+            </p>
+            <div>
+              <h2 class="post-row__title">
+                <a href="/blog/ci-cd-service-by-service">Rewriting CI/CD service-by-service, without a freeze</a>
+              </h2>
+              <p class="post-row__desc">
+                Moving a running platform off Skaffold one service at a time, and
+                the Kustomize footgun that nearly broke traffic silently.
+              </p>
+              <ul class="chips">
+                <li>ci-cd</li>
+                <li>kubernetes</li>
+                <li>kustomize</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="post-row">
+            <p class="post-row__meta">
+              <time datetime="2026-09-05">2026-09-05</time>
+              <span>3 min read</span>
+            </p>
+            <div>
+              <h2 class="post-row__title">
+                <a href="/blog/agents-near-production">What an AI agent needs before you let it near production</a>
+              </h2>
+              <p class="post-row__desc">
+                Conventions in writing, a governed data path, and a human
+                interlock in front of the irreversible operations.
+              </p>
+              <ul class="chips">
+                <li>ai-agents</li>
+                <li>platform</li>
+                <li>mcp</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="post-row">
+            <p class="post-row__meta">
+              <time datetime="2026-09-01">2026-09-01</time>
+              <span>2 min read</span>
+            </p>
+            <div>
+              <h2 class="post-row__title">
+                <a href="/blog/parallel-run">Parallel-run, don't cut over</a>
+              </h2>
+              <p class="post-row__desc">
+                Four real migrations where the old path stayed up until the new
+                one was proven.
+              </p>
+              <ul class="chips">
+                <li>kubernetes</li>
+                <li>infra</li>
+                <li>migration</li>
+              </ul>
+            </div>
+          </article>
+        </div>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap site-footer__inner">
+        <p class="site-footer__name">sooth.dev</p>
+        <nav class="site-footer__links" aria-label="Elsewhere">
+          <a href="mailto:sooth.dev@gmail.com">Email</a>
+          <a href="https://github.com/Mautjee">GitHub</a>
+          <a href="https://www.linkedin.com/in/mauro-eijsenring/">LinkedIn</a>
+          <a href="/about">About</a>
+          <a href="/rss.xml">RSS</a>
+        </nav>
+        <p class="site-footer__legal">© 2026 Mauro Eijsenring · built with Astro</p>
+      </div>
+    </footer>
+  </body>
+</html>

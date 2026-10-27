@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Parallel-run, don't cut over — sooth.dev</title>
+    <meta
+      name="description"
+      content="Four real migrations where I kept the old path running until the new one was proven — and why the artefacts still in the repo are the proof."
+    />
+    <link rel="canonical" href="https://sooth.dev/blog/parallel-run" />
+    <link rel="stylesheet" href="proto.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+      <div class="wrap site-header__inner">
+        <a class="wordmark" href="/">sooth.dev</a>
+        <nav class="nav" aria-label="Primary">
+          <ul class="nav__list">
+            <li><a href="/">Home</a></li>
+            <li><a href="/projects">Projects</a></li>
+            <li><a href="/blog" aria-current="page">Blog</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/cv.pdf">CV</a></li>
+          </ul>
+        </nav>
+        <details class="nav__mobile">
+          <summary>Menu</summary>
+          <nav class="nav__mobile-panel" aria-label="Primary">
+            <a href="/">Home</a>
+            <a href="/projects">Projects</a>
+            <a href="/blog" aria-current="page">Blog</a>
+            <a href="/about">About</a>
+            <a href="/cv.pdf">CV</a>
+          </nav>
+        </details>
+      </div>
+    </header>
+
+    <main id="main">
+      <header class="page-head wrap">
+        <a class="backlink" href="/blog">← All writing</a>
+        <h1>Parallel-run, don't cut over</h1>
+        <p class="lede">
+          Four real migrations where I kept the old path running until the new
+          one was proven — and why the artefacts still in the repo are the proof.
+        </p>
+        <p class="meta-row">
+          <time datetime="2026-09-01">2026-09-01</time>
+          <span>2 min read</span>
+          <a href="/projects/okutama">The Grid</a>
+        </p>
+        <ul class="chips">
+          <li>kubernetes</li>
+          <li>infra</li>
+          <li>migration</li>
+        </ul>
+      </header>
+
+      <div class="wrap reading">
+        <div class="reading__body">
+        <article class="prose">
+          <p>
+            Most people <em>say</em> they do parallel-run migrations. You can
+            tell the ones who actually do: months later, the old stuff is still
+            sitting in the repo.
+          </p>
+          <p>
+            Two of my migrations left that exact evidence behind.
+          </p>
+
+          <h2 id="ten-week-gap">The ten-week gap</h2>
+          <p>
+            At <a href="/projects/okutama">The Grid</a> we migrated ingress from
+            nginx to the Gateway API / Envoy Gateway. We did it one
+            <strong>environment</strong> at a time — local and staging first, then
+            production about ten days later. But the old nginx ingress stayed in
+            production for roughly <strong>ten more weeks</strong> after the Envoy
+            cutover before someone finally deleted it.
+          </p>
+          <p>
+            That is not a bug. That is the point. The old path is the rollback you
+            cannot lose.
+          </p>
+
+          <h2 id="deprecated">The <code>-deprecated</code> directories</h2>
+          <p>
+            The same project kept old deployment topologies around as
+            <code>-deprecated</code> manifest sets as we moved services onto the
+            new pipeline. Those folders were still present months later. They are
+            the physical proof that we never did a big-bang cutover.
+          </p>
+
+          <h2 id="service-by-service">Cutting over service by service</h2>
+          <p>
+            At <a href="/projects/aztecscan">Aztecscan</a> the CI/CD migration was
+            even more granular. We moved from Skaffold to GitHub Actions plus
+            Kustomize one <strong>service</strong> at a time, with
+            <code>explorer-ui-v2</code> as a live pilot while the old pipeline kept
+            deploying the other seven.
+          </p>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Migration</th>
+                <th>Old path kept</th>
+                <th>Removed</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Aztecscan CI/CD</td>
+                <td>7 services</td>
+                <td>Progressive</td>
+              </tr>
+              <tr>
+                <td>Aztecscan ingress</td>
+                <td>Per network</td>
+                <td>In progress</td>
+              </tr>
+              <tr>
+                <td>The Grid ingress</td>
+                <td>10 weeks</td>
+                <td>By teammate</td>
+              </tr>
+              <tr>
+                <td>The Grid topologies</td>
+                <td><code>-deprecated</code></td>
+                <td>Still present</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h2 id="kustomize">The Kustomize footgun</h2>
+          <p>
+            On a related migration the payoff was a lesson about parallel-running
+            with tooling that has sharp edges: Kustomize's <code>nameSuffix</code>
+            rewrites <code>metadata.name</code>, but it does
+            <strong>not</strong> rewrite <code>HTTPRoute.backendRefs[].name</code>.
+            Traffic started routing to a service that no longer existed.
+          </p>
+          <p>
+            Renaming one thing while relying on references to it is a preview of
+            exactly what "cut over everything at once" feels like at scale.
+          </p>
+
+          <h2 id="cost">What this cost</h2>
+          <p>
+            Parallel-running is not free. It means two ingress paths to monitor,
+            two sets of manifests to keep honest, and a period where "which path
+            is live?" is a question you have to answer on purpose. The trade I
+            accepted was roughly ten weeks of extra operational surface for a
+            working rollback, a comparison baseline, and time to find the footguns
+            while both paths were still up.
+          </p>
+
+          <h2 id="takeaway">The takeaway</h2>
+          <p>
+            Cutting over everything at once turns a migration into a switch with a
+            binary outcome. Running the old path alongside the new one for a while
+            costs a little extra operational surface and buys you a working
+            rollback, a comparison baseline, and time to find the footguns.
+          </p>
+
+        </article>
+
+        <div class="related">
+          <p class="related__title">Related</p>
+          <ul class="related__list">
+            <li><a href="/projects/okutama">The Grid — API platform</a></li>
+            <li><a href="/blog/ci-cd-service-by-service">Rewriting CI/CD service-by-service, without a freeze</a></li>
+            <li><a href="/blog/documentation-drift">Documentation drift, caught by audit</a></li>
+          </ul>
+        </div>
+        </div>
+
+        <aside class="rail" aria-label="Post details">
+          <div class="rail__row">
+            <span class="rail__label">Published</span>
+            <span class="rail__value">2026-09-01</span>
+          </div>
+          <div class="rail__row">
+            <span class="rail__label">Reading time</span>
+            <span class="rail__value">2 minutes</span>
+          </div>
+          <div class="rail__row">
+            <span class="rail__label">Project</span>
+            <span class="rail__value"><a href="/projects/okutama">The Grid</a></span>
+          </div>
+          <div class="rail__row">
+            <span class="rail__label">Tags</span>
+            <span class="rail__value">kubernetes, infra, migration</span>
+          </div>
+          <nav class="rail__row" aria-label="On this page">
+            <span class="rail__label">On this page</span>
+            <div class="rail__links">
+              <a href="#ten-week-gap">The ten-week gap</a>
+              <a href="#deprecated">The -deprecated directories</a>
+              <a href="#service-by-service">Cutting over service by service</a>
+              <a href="#kustomize">The Kustomize footgun</a>
+              <a href="#cost">What this cost</a>
+              <a href="#takeaway">The takeaway</a>
+            </div>
+          </nav>
+        </aside>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap site-footer__inner">
+        <p class="site-footer__name">sooth.dev</p>
+        <nav class="site-footer__links" aria-label="Elsewhere">
+          <a href="mailto:sooth.dev@gmail.com">Email</a>
+          <a href="https://github.com/Mautjee">GitHub</a>
+          <a href="https://www.linkedin.com/in/mauro-eijsenring/">LinkedIn</a>
+          <a href="/about">About</a>
+          <a href="/rss.xml">RSS</a>
+        </nav>
+        <p class="site-footer__legal">© 2026 Mauro Eijsenring · built with Astro</p>
+      </div>
+    </footer>
+  </body>
+</html>

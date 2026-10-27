@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>About — sooth.dev</title>
+    <meta
+      name="description"
+      content="Platform and infrastructure engineer: Kubernetes, CI/CD, migrations, and the guardrails that make AI agents safe near production."
+    />
+    <link rel="canonical" href="https://sooth.dev/about" />
+    <link rel="stylesheet" href="proto.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+      <div class="wrap site-header__inner">
+        <a class="wordmark" href="/">sooth.dev</a>
+        <nav class="nav" aria-label="Primary">
+          <ul class="nav__list">
+            <li><a href="/">Home</a></li>
+            <li><a href="/projects">Projects</a></li>
+            <li><a href="/blog">Blog</a></li>
+            <li><a href="/about" aria-current="page">About</a></li>
+            <li><a href="/cv.pdf">CV</a></li>
+          </ul>
+        </nav>
+        <details class="nav__mobile">
+          <summary>Menu</summary>
+          <nav class="nav__mobile-panel" aria-label="Primary">
+            <a href="/">Home</a>
+            <a href="/projects">Projects</a>
+            <a href="/blog">Blog</a>
+            <a href="/about" aria-current="page">About</a>
+            <a href="/cv.pdf">CV</a>
+          </nav>
+        </details>
+      </div>
+    </header>
+
+    <main id="main">
+      <header class="page-head wrap">
+        <h1>About</h1>
+        <p class="lede">
+          I'm a platform and infrastructure engineer. I take prototypes to
+          production and keep them there.
+        </p>
+      </header>
+
+      <div class="wrap reading">
+        <article class="prose">
+          <h2>What I do</h2>
+          <p>
+            I work across the stack — Go and TypeScript services, Kubernetes,
+            CI/CD — but the through-line is turning something that runs on one
+            machine into a platform other people can build on. Since 2024 I've
+            done that as a freelancer, mostly for teams whose product had
+            outgrown the way it was deployed.
+          </p>
+
+          <h2>The arc</h2>
+          <p>
+            <a href="/projects/aztecscan">Aztecscan</a> was scale and protocol
+            churn: a block explorer for a privacy L2 that shipped more than ten
+            protocol versions while I was there, on three live networks that ran
+            different versions on purpose. I wrote about a third of the codebase
+            and owned the CI/CD and production manifests.
+          </p>
+          <p>
+            <a href="/projects/okutama">The Grid</a> was the opposite problem:
+            a pile of unmanaged Lambda functions and App Runner services with no
+            environment separation. Rebuilding it as a Kubernetes platform,
+            environment by environment, taught me more about sequencing a
+            migration than any of the individual tools did.
+          </p>
+          <p>
+            Before that, <a href="/projects/bot-busters">Bot Busters</a> and
+            <a href="/projects/boloney">Boloney</a> were realtime games. In both
+            I owned the match state machine — turns, timers, fairness under
+            latency, and what happens when a player disconnects.
+          </p>
+
+          <h2>How I work</h2>
+          <p>
+            I write the decision down before I make it. That habit produced a
+            459-line CI/CD migration plan, a 373-line ingress migration plan, and
+            an ADR that compared four rejected options before recommending one.
+            When I reviewed my own ADR, I did it in the same critical /
+            important / suggestion taxonomy I'd use on someone else's pull
+            request.
+          </p>
+          <p>
+            I don't do big-bang cutovers. Every migration I've run kept the old
+            path alive until the new one was proven: one service at a time, one
+            environment at a time, and the deprecated manifests still in the repo
+            months later as evidence. The ten-week gap between an Envoy cutover
+            and removing nginx is the part I'm proudest of.
+          </p>
+          <p>
+            Lately the question I keep working on is what an AI agent needs
+            before it can be trusted near production. My answer so far: give it
+            the codebase's conventions in writing, give it one governed path to
+            company data instead of ad hoc access, and put a human confirmation
+            in front of anything irreversible. I built all three, in different
+            projects, and I keep seeing the same pattern.
+          </p>
+
+          <h2>Availability</h2>
+          <p>
+            Open to freelance platform and infrastructure work. That usually
+            means Kubernetes and CI/CD, a service split or migration, or making a
+            deployment story that a small team can actually operate.
+          </p>
+
+          <h2>CV and contact</h2>
+          <p>
+            The full CV is available as <a href="/cv.pdf">PDF</a> or
+            <a href="/cv.md">Markdown</a>. Email is the fastest way to reach me,
+            and I'm on GitHub and LinkedIn.
+          </p>
+          <div class="about-links">
+            <a href="mailto:sooth.dev@gmail.com">sooth.dev@gmail.com</a>
+            <a href="https://github.com/Mautjee">GitHub</a>
+            <a href="https://www.linkedin.com/in/mauro-eijsenring/">LinkedIn</a>
+            <a href="/cv.pdf">CV (PDF)</a>
+          </div>
+        </article>
+
+        <aside class="rail" aria-label="At a glance">
+          <div class="rail__row">
+            <span class="rail__label">Role</span>
+            <span class="rail__value">Platform &amp; infrastructure engineer</span>
+          </div>
+          <div class="rail__row">
+            <span class="rail__label">Since</span>
+            <span class="rail__value">Freelance, 2024</span>
+          </div>
+          <div class="rail__row">
+            <span class="rail__label">Focus</span>
+            <span class="rail__value">Kubernetes, CI/CD, migrations, AI-agent guardrails</span>
+          </div>
+          <div class="rail__row">
+            <span class="rail__label">Availability</span>
+            <span class="rail__value">Open to freelance platform and infrastructure work.</span>
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap site-footer__inner">
+        <p class="site-footer__name">sooth.dev</p>
+        <nav class="site-footer__links" aria-label="Elsewhere">
+          <a href="mailto:sooth.dev@gmail.com">Email</a>
+          <a href="https://github.com/Mautjee">GitHub</a>
+          <a href="https://www.linkedin.com/in/mauro-eijsenring/">LinkedIn</a>
+          <a href="/about">About</a>
+          <a href="/rss.xml">RSS</a>
+        </nav>
+        <p class="site-footer__legal">© 2026 Mauro Eijsenring · built with Astro</p>
+      </div>
+    </footer>
+  </body>
+</html>
