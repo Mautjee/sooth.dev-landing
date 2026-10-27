@@ -113,8 +113,8 @@ PR #38  production        -> Envoy Gateway serves
         +--> dead nginx definitions removed
 ```
 
-Four shipped migrations and one proposal, as a timeline. The last column is the point: in three of
-the four shipped ones, the old path outlived the cutover by weeks or months.
+Four shipped migrations and one proposal, as a timeline. The last column is the point: the old path
+outlived the cutover by weeks or months.
 
 | Migration | Cutover unit | Cutover | Old path removed |
 |---|---|---|---|
