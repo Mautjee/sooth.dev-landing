@@ -336,7 +336,9 @@
 .site-footer__links a {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   min-height: 44px;
+  min-width: 44px;
   font-family: var(--font-mono);
   font-size: var(--text-meta);
   color: var(--color-text);
@@ -532,6 +534,10 @@
 }
 
 .work-row__title a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  max-width: 100%;
   color: var(--color-text-strong);
   text-decoration: none;
 }
@@ -607,6 +613,12 @@
   color: var(--color-muted);
 }
 
+.post-row__project {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
 .post-row__title {
   margin-top: var(--space-2);
   font-size: 1.25rem;
@@ -616,6 +628,10 @@
 }
 
 .post-row__title a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  max-width: 100%;
   color: var(--color-text-strong);
   text-decoration: none;
 }
@@ -715,6 +731,7 @@
   display: inline-flex;
   align-items: center;
   min-height: 44px;
+  min-width: 44px;
 }
 
 .contact__link:hover {
@@ -784,6 +801,10 @@
 }
 
 .meta-row a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  min-width: 44px;
   color: var(--color-link);
 }
 
@@ -833,7 +854,7 @@
 .rail__value a {
   display: inline-flex;
   align-items: center;
-  min-height: 32px;
+  min-height: 44px;
 }
 
 .rail__links {
@@ -845,7 +866,7 @@
 .rail__links a {
   display: inline-flex;
   align-items: center;
-  min-height: 34px;
+  min-height: 44px;
   font-size: var(--text-meta);
   color: var(--color-text);
   text-decoration: none;
@@ -910,6 +931,10 @@
 }
 
 .project-card__title a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  max-width: 100%;
   color: var(--color-text-strong);
   text-decoration: none;
 }
@@ -959,6 +984,13 @@
   color: var(--color-muted);
 }
 
+.index-contact a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  min-width: 44px;
+}
+
 /* ---- related ---------------------------------------------------------- */
 .related {
   margin-top: var(--space-section);
@@ -985,6 +1017,7 @@
   display: inline-flex;
   align-items: center;
   min-height: 44px;
+  min-width: 44px;
 }
 
 .related__list a:hover {
@@ -1021,8 +1054,18 @@
   display: inline-flex;
   align-items: center;
   min-height: 44px;
+  min-width: 44px;
   font-family: var(--font-mono);
   font-size: var(--text-meta);
+}
+
+@media (max-width: 47.99rem) {
+  .prose a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    min-width: 44px;
+  }
 }
 
 /* ---- motion: exactly two events -------------------------------------- */
