@@ -486,7 +486,7 @@ Three new posts, exact slugs and sources:
 | # | Slug | Title | Words | Project | Evidence |
 |---|---|---|---|---|---|
 | 4 | `local-dev-environment` | The 10-minute local development environment | 1,200–1,800 | `okutama` | `04:237-245`; `91:25` (🟡 — genericise: no client, hostnames, ARNs, account IDs, internal service names beyond the public mechanism) |
-| 11 | `gateway-api-migration` | Migrating ingress to the Kubernetes Gateway API, one environment at a time | 1,200–1,800 | `okutama` | `04:81`, `:128-144`; `91:39` (🟢) |
+| 11 | `gateway-api-migration` | Migrating ingress to the Gateway API | 1,200–1,800 | `okutama` | `04:81`, `:128-144`; `91:39` (🟢) |
 | 13 | `fresh-clone-bugs` | Three bugs a fresh clone found that code review didn't | 1,200–1,800 | `aztecscan` | `90:174`; `91:41` (🟢) — FK ordering violation, silent duplicate block write, frontend Zod wire-format mismatch; PR #364 |
 
 Every post: `description` ≤160 chars, reading time in the header, 2–3 related links, and a
@@ -504,3 +504,278 @@ tradeoff or "what this cost" section. No post may cite a gated backlog item (§7
 
 Do not copy `90-cross-cutting.md` prose into the page; use it as the fact base and write fresh
 copy. Quote at most one short phrase as evidence in the issue, never in `public/`.
+
+---
+
+## 6. Testable acceptance criteria
+
+All commands run from the repo root **inside the build sandbox**
+(`ssh -p 2222 -i ~/.ssh/vps_ed25519 agent@127.0.0.1`), which has node 22, bun and chromium.
+`$BASE=http://localhost:4321` is `bun run preview` (or `bun run dev`); `$SITE=https://sooth.dev`
+is the live check for the Verifier. Every pass condition is a command result, never "looks good".
+Paste the command and its real (trimmed) output in the PR and the issue.
+
+Helper: `scripts/verify.mjs` is dependency-free and exposes exactly these subcommands; it exits
+non-zero on the first violated assertion so it can gate CI. Implementers may not weaken them.
+
+```
+node scripts/verify.mjs meta   <dist-dir>
+node scripts/verify.mjs motion <url...>
+node scripts/verify.mjs layout <url...> --width <px> [--keyboard]
+node scripts/verify.mjs shots  <base-url> <out-dir>
+node scripts/verify.mjs weight <dist-dir> <public-dir>
+node scripts/verify.mjs audit  <docs/content-audit.md>
+```
+
+### Build & correctness
+
+**AC-1 — clean build, lockfile honest.**
+```bash
+bun install --frozen-lockfile && bun run build; echo "exit=$?"
+git diff --exit-code -- bun.lock; echo "lock=$?"
+```
+Pass: `exit=0`, `lock=0`, `dist/` contains `index.html`, `404.html`, `rss.xml`,
+`sitemap.xml`, `about/index.html`, `blog/index.html`, `projects/index.html` and one directory per
+entry (7 posts, 5 projects). If a dependency was added, `bun.lock` is in the same commit and the PR
+body states installed KB and the rejected alternative.
+
+**AC-2 — existing URLs still resolve.** Split by URL family so one failure names the route.
+```bash
+# AC-2a content routes (200, no redirect chain longer than 1)
+for u in / /blog /blog/agents-near-production /blog/ci-cd-service-by-service \
+         /blog/documentation-drift /blog/parallel-run /projects \
+         /projects/aztecscan /projects/boloney /projects/bot-busters \
+         /projects/okutama /projects/olla; do
+  printf '%s ' "$u"; curl -s -o /dev/null -w '%{http_code} %{num_redirects}\n' "$SITE$u"
+done
+# AC-2b CV artefacts (200 + correct type; PDF must download)
+for u in /cv.pdf /cv.md; do printf '%s ' "$u"; curl -sI "$SITE$u" | grep -iE '^HTTP|^content-type|^content-disposition'; done
+```
+Pass: every content route `200 0`; `/cv.pdf` `200` with `application/pdf` and
+`content-disposition: attachment`; `/cv.md` `200` (`text/markdown` or `text/plain`). No redirect
+entries exist, so `num_redirects` must be 0.
+
+**AC-3 — no JS dependence, ≤15 KB JS.**
+```bash
+grep -rn "<script" src/ ; echo "authored-scripts=$?"            # expect: no output, exit 1
+find dist/_astro -name '*.js' -print0 | xargs -0 -r gzip -c | wc -c   # bytes, gzipped
+chromium --headless --no-sandbox --blink-settings=scriptEnabled=false \
+  --dump-dom "$BASE/blog/parallel-run" | sed -n 's/.*<main[^>]*>//p' | wc -c
+```
+Pass: no authored `<script>`; total JS ≤15360 bytes gzipped; the JS-disabled `innerText`/DOM dump
+contains the post title and the first body sentence. Record the byte count in the PR.
+
+**AC-4 — motion budget, reduced-motion honoured.**
+```bash
+grep -rnE "animate-(pulse-glow|float|slide-up)|hover:scale|animate-bounce|animate-pulse" src/ ; echo "banned=$?"
+node scripts/verify.mjs motion "$BASE/" "$BASE/projects/aztecscan/" "$BASE/blog/parallel-run/"
+```
+Pass: `banned=1` (no matches); the script (CDP `Emulation.setEmulatedMedia` with
+`{name:'prefers-reduced-motion',value:'reduce'}`) reports `getAnimations().length = 0` and every
+`transitionDuration ≤ 10ms` on all three URLs. Without the override, at most two distinct
+transition/animation events are observed (§3.5), each ≤200 ms, none on `transform` except the
+view-transition pseudo-element. Paste both runs.
+
+**AC-5 — tokens only.**
+```bash
+awk '/@theme[[:space:]]*\{/{t=1} t&&/^\}/{t=0;next} !t&&/#[0-9a-fA-F]{3,8}/{print FILENAME":"FNR":"$0}' src/styles/*.css
+grep -c "var(--color-" src/styles/prose.css
+grep -c "var(--color-" src/pages/*.astro src/pages/*/*.astro | grep -v ':0' | wc -l
+```
+Pass: first command prints nothing; `prose.css` has ≥10 token references; no page uses a literal
+palette class (`bg-gruvbox-*`, `text-gruvbox-gray`, `border-gruvbox-*`) — `grep -rn "gruvbox-"
+src/pages src/components` must be 0 except `src/styles/global.css`.
+
+### Design
+
+**AC-6 — mobile nav and no horizontal scroll.**
+```bash
+for w in 360 768 1280; do node scripts/verify.mjs layout "$BASE/" "$BASE/projects/" "$BASE/blog/" "$BASE/about/" --width "$w"; done
+```
+Pass per width: `document.documentElement.scrollWidth <= window.innerWidth`; every `a`, `button`,
+`summary` in the nav is ≥44×44 CSS px; at 360 the menu control is visible, clicking it exposes all
+five links, and one link click navigates. Script prints `scrollWidth/innerWidth` and the smallest
+target size. Paste the 360 output.
+
+**AC-7 — keyboard, focus, one h1.**
+```bash
+node scripts/verify.mjs layout "$BASE/" "$BASE/projects/" "$BASE/blog/" "$BASE/about/" --width 1280 --keyboard
+node scripts/verify.mjs meta dist   # includes h1 count per page
+```
+Pass: first Tab focuses the skip link and it becomes visible; skip link targets `#main`; the
+scripted Tab sequence reaches nav → first main link/content → footer with no cycle (20 Tabs, no
+repeated activeElement before the footer); every focused element matches `:focus-visible` and has
+an outline/border with ≥3:1 contrast against its background (script computes it; the token pair is
+8.69:1 on `--color-bg`); every built page has exactly one `<h1>`.
+
+**AC-8 — screenshots at three widths.**
+```bash
+node scripts/verify.mjs shots "$BASE" docs/evidence/screens
+```
+Produces 18 full-page PNGs (6 routes × 3 widths): `/`, `/blog`, `/blog/parallel-run`, `/projects`,
+`/projects/aztecscan`, `/about`. Attach them (or a zip) to the issue. Pass: files exist, each
+>10 KB, dimensions match the requested width, and the desktop screenshots show the wide layout
+(`max-w-5xl`) while post/prose pages are narrower.
+
+### Discoverability
+
+**AC-9 — metadata on every route.**
+```bash
+node scripts/verify.mjs meta dist
+```
+Pass per built HTML file: exactly one `<title>` of 1–60 chars; one `<meta name="description">` of
+1–160 chars; `<link rel="canonical">` absolute and equal to `https://sooth.dev` + route (no
+trailing slash except `/`); `og:title`, `og:description`, `og:type`, `og:url`, `og:image`
+(absolute), `og:image:width=1200`, `og:image:height=630`, `twitter:card` present; all titles
+unique; home title does not contain "Links". Script prints a table and exits non-zero on any
+missing/over-length field.
+
+**AC-10 — OG image fetchable and correct.**
+```bash
+for k in home about blog post projects project; do
+  printf '%s ' "$k"; curl -sI "$SITE/og/$k.png" | grep -iE '^HTTP|^content-type|^content-length'
+done
+node -e 'const fs=require("fs");for(const k of ["home","about","blog","post","projects","project"]){const b=fs.readFileSync(`public/og/${k}.png`);if(b.toString("ascii",1,4)!=="PNG")throw k;console.log(k,b.readUInt32BE(16)+"x"+b.readUInt32BE(20),b.length+"B")}'
+```
+Pass: every response `200` + `image/png`; every file is PNG **1200×630**, ≤35 KB; the page's
+`og:image` resolves to the mapped file (§3.6) and `og:image:alt` is non-empty.
+
+**AC-11 — sitemap, robots, RSS.**
+```bash
+python3 -c "import xml.dom.minidom as m; m.parse('dist/sitemap.xml'); m.parse('dist/rss.xml'); print('xml ok')"
+grep -c "<item>" dist/rss.xml
+grep -o "<loc>[^<]*</loc>" dist/sitemap.xml | wc -l
+grep -E "Sitemap:" dist/robots.txt
+grep -c "<link>https://sooth.dev/blog/" dist/rss.xml
+```
+Pass: `xml ok`; RSS has **7** `<item>`; sitemap has **16** `<loc>` (2 index + 2 static + 7 posts
++ 5 projects; `/404` excluded); robots references `https://sooth.dev/sitemap.xml`; all 7 RSS
+`<link>` values are absolute live URLs; RSS `<pubDate>` parses as RFC-822.
+
+**AC-12 — 404 route served as 404.**
+```bash
+curl -s -o /tmp/404.html -w '%{http_code}\n' "$SITE/no-such-page-$(date +%s)"
+grep -oE 'href="/(projects|blog|about)?"' /tmp/404.html | sort -u | wc -l
+curl -s -o /dev/null -w '%{http_code}\n' "$SITE/404.html"
+```
+Pass: first code `404` (not 200); body contains ≥4 internal links (Home, Projects, Blog, About)
+and the text "doesn't exist"; direct `/404.html` returns `404` because nginx marks it `internal` —
+that is expected, not a failure.
+
+### Content
+
+**AC-13 — project structure and length.**
+```bash
+for f in src/content/projects/*.md; do
+  printf '%s words=' "$f"; awk 'c>=2{print}' "$f" | wc -w
+  grep -nE '^## (The problem|My role|The hard part|Outcome|What I.d do differently|Artefact)' "$f" | wc -l
+done
+grep -c '^# ' src/content/projects/*.md          # must be 0 for every file
+for f in dist/projects/*/index.html; do printf '%s h1=' "$f"; grep -o '<h1' "$f" | wc -l; done
+```
+Pass: each body 600–900 words; each file has the five required section headings (artefact is a
+`##` only where §5 marks one; Olla's GAP means the artefact is absent — note it in the PR); zero
+body `# H1`; exactly one `<h1>` in every built project page.
+
+**AC-14 — posts length, artefact, tradeoff.**
+```bash
+for f in src/content/blog/*.md; do printf '%s words=' "$f"; awk 'c>=2{print}' "$f" | wc -w; done
+grep -c '^\s*```' src/content/blog/*.md                 # ≥2 per post (fence open+close)
+grep -lE '^## .*(tradeoff|what this cost|what I.d do differently)' src/content/blog/*.md | wc -l
+```
+Pass: the four existing posts are 1,000–1,500 words; every post has a fenced block (≥2 fences)
+rendered as `<pre>` in `dist/blog/*/index.html`; every post has a tradeoff/cost section; every post
+states a thesis in its first two paragraphs (reviewer checks against `docs/content-audit.md`).
+The three new posts are checked by AC-15 at 1,200–1,800.
+
+**AC-15 — three new posts, no gated content.**
+```bash
+ls src/content/blog | sort
+for f in src/content/blog/{local-dev-environment,gateway-api-migration,fresh-clone-bugs}.md; do
+  printf '%s ' "$f"; awk 'c>=2{print}' "$f" | wc -w
+done
+grep -rniE '\$360|serverless sprawl|30,000 database|three networks on three protocol|reviewing my own decision' src/content/blog/ ; echo "gated=$?"
+```
+Pass: 7 files; each new post 1,200–1,800 words and complete frontmatter (the build's Zod schema is
+the check); `gated=1` (no gated idea copied); every new post has `description` ≤160 and 2–3 related
+links in the rendered page.
+
+**AC-16 — about page.**
+```bash
+node -e 'const h=require("fs").readFileSync("dist/about/index.html","utf8");const m=h.match(/<main[\s\S]*?<\/main>/)[0];console.log(m.replace(/<[^>]+>/g," ").split(/\s+/).filter(Boolean).length)' 
+grep -c 'href="/cv.pdf"' dist/about/index.html
+grep -ciE 'den haag|nationality|phone|birthday|born|\+31|mauro@eijsenring' dist/about/index.html
+```
+Pass: 400–600 words of body copy; `/cv.pdf` linked; private-detail scan `0`; the page reaches
+`mailto:sooth.dev@gmail.com`, GitHub, LinkedIn; one `h1`.
+
+**AC-17 — factual audit artifact.**
+```bash
+test -s docs/content-audit.md && node scripts/verify.mjs audit docs/content-audit.md
+```
+Pass: the file has one section per route and per project/post slug; every verifiable claim row has a
+non-empty evidence cell matching `research/…:\d+`, `owner/repo#\d+`, or a 7–40 char commit SHA; every
+`GAP` in §5 appears as an explicit "not claimed / softened to …" row. Quality Reviewer re-checks
+each row against the cited source and attaches the verdict; a row that does not match its source
+fails the stage.
+
+### Performance (mobile, the way Mauro reads it)
+
+**AC-18 — Lighthouse thresholds.**
+```bash
+for u in / /blog/parallel-run /projects/aztecscan; do
+  n=$(echo "$u" | tr '/' '_'); npx --yes lighthouse "$BASE$u" \
+    --only-categories=performance,accessibility,best-practices,seo \
+    --output=json --output-path="docs/evidence/lh${n}.json" \
+    --chrome-flags="--headless --no-sandbox --disable-gpu" --quiet
+  node -e 'const j=require(process.argv[1]);for(const [k,v] of Object.entries(j.categories))console.log(k,Math.round(v.score*100))' "docs/evidence/lh${n}.json"
+done
+```
+Pass per URL: performance ≥95, accessibility 100, best-practices ≥95, SEO 100. Paste scores and
+paths. `npx lighthouse` is a run-time tool only; it is not added to `package.json`.
+
+**AC-19 — Core Web Vitals + image attributes.**
+From the same JSON:
+```bash
+node -e 'for(const f of process.argv.slice(1)){const j=require(f);const a=j.audits;console.log(f,{cls:a["cumulative-layout-shift"].numericValue,lcp:a["largest-contentful-paint"].numericValue,tbt:a["total-blocking-time"].numericValue})}' docs/evidence/lh*.json
+grep -o '<img[^>]*>' dist/index.html dist/blog/*/index.html dist/projects/*/index.html
+```
+Pass: CLS <0.05, LCP <2500 ms, TBT <200 ms (Lighthouse mobile preset = simulated Slow-4G); every
+`<img>` has `width`+`height` (or `style="aspect-ratio"`), the hero avatar has no `loading="lazy"`,
+and every below-fold image has `loading="lazy"`.
+
+**AC-20 — page weight and public budget.**
+```bash
+node scripts/verify.mjs weight dist public
+find public -type f -size +100k -printf '%s %p\n'
+find dist/_astro -name '*.css' -print0 | xargs -0 -r gzip -c | wc -c
+```
+Pass: every route's HTML+CSS (gzipped, separately summed) ≤122880 bytes; first-view payload
+(HTML+CSS+JS+fonts+above-fold images, excluding `/cv.pdf` and the avatar source) ≤256000 bytes;
+**no file in `public/` >102400 bytes** (currently `public/cv.pdf` = 80.8 KB is the largest; the
+98.5 KB avatar is moved to `src/assets/` and served as a responsive set); CSS ≤60 KB gzipped; the
+script prints a per-route table.
+
+---
+
+## 7. Out of scope (drift guard)
+
+Restated from §1 so a reviewer can reject a PR that wanders:
+
+| Do not build | Detect it |
+|---|---|
+| CMS, comments, newsletter, contact form | new dependency, `/api/*`, form action, `mailto` only |
+| Analytics, tracking, cookie banner, A/B tooling | any `<script src=…>` beyond Astro's router, any `gtag`/`plausible`/`umami` string |
+| i18n / Dutch version | `src/i18n`, locale routing, `lang="nl"` |
+| Client-side framework/router/animation lib/CSS-in-JS | new `react`, `vue`, `svelte`, `framer-motion`, `gsap`, `styled-components` in `package.json` |
+| UI kit, icon pack, web font | new `@radix`, `lucide`, `heroicons`, `.woff2` in `public/` or `@font-face` |
+| CV content rewrite | any diff to `public/cv.md` / `public/cv.pdf` |
+| DNS, domain, hosting, other Dokploy projects | any change outside the sooth.dev app, any DNS record change |
+| Redirect maps beyond kept URLs | `redirects` in `astro.config.mjs` not listed in §3.1 |
+| New writing on gated backlog items #2, #3, #5, #6, #7, #12, #14, #15 | AC-15 grep; reviewer reads `91-content-backlog.md` status column |
+| New dependency for OG/RSS/sitemap | `package.json` diff; §3.6 is the only approved mechanism |
+| Downgrading Astro or replacing the content layer | `package.json`/`src/content.config.ts` diff; §9 R1 |
+
+What may change beyond the file list: nothing. If an implementer believes a file outside §3 must
+change, they state why in the PR before changing it.
+
