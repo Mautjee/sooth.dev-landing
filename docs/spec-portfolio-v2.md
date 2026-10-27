@@ -167,7 +167,7 @@ the same PR adds `redirects: { '/old': '/new' }` and lists it here.
 | `src/components/ProjectCard.astro` | Numbered card: title, role · period, one-line outcome (`summary`), up to 4 stack chips, status. Props: `{ project: CollectionEntry<'projects'>, rank?: number }`. | D5, AC-8 | A |
 | `src/components/PostCard.astro` | Post row/card: date, reading time, title, description, tags, optional project link. Props: `{ post: CollectionEntry<'blog'>, showProject?: boolean }`. | D5, AC-14 | A |
 | `src/lib/seo.ts` | `absoluteUrl(path)`, `pageTitle(short)` (appends ` — sooth.dev` only when ≤60 chars), `OG_IMAGE` route-type map. Single source of truth for canonicals and OG paths. | AC-9, AC-10 | A |
-| `src/lib/content.ts` | `readingTime(body)` (220 wpm, min 1), `relatedPosts(post, all)` (same `project` first, then shared tag, cap 3), `relatedProjects(project, all)` (shared tag, cap 3). Pure functions, unit-testable. | AC-14, §5.3 | A |
+| `src/lib/content.ts` | `readingTime(body)` (220 wpm, min 1), `relatedPosts(post, all)` (same `project` first, then shared tag, cap 3), `relatedProjects(project, all)` (shared tag, cap 3). Pure functions, unit-testable. | AC-14, §5.6 | A |
 | `src/pages/about.astro` | `/about` route, 400–600 words, five sections (§4.2). | AC-16 | A |
 | `src/pages/404.astro` | `/404` route with recovery links, `noindex`, no OG image. | AC-12 | A |
 | `src/pages/rss.xml.ts` | RSS 2.0 endpoint over `getCollection('blog')`, absolute links, RFC-822 dates, `description` from frontmatter. Hand-rolled string; no `@astrojs/rss`. | AC-11 | B |
@@ -195,7 +195,7 @@ the same PR adds `redirects: { '/old': '/new' }` and lists it here.
 | `src/pages/projects/index.astro` | One `h1`; lede; all five `ProjectCard`s with one-line outcome; no "Featured" badge inside the grid unless it earns hierarchy. | AC-8, AC-13 | B |
 | `src/pages/projects/[slug].astro` | `wide` header then `prose` body; artefact rendered inside prose; related posts block; remove the layout/body `h1` duplication (the body heading is removed in content). | AC-13 | B |
 | `src/content.config.ts` | **No schema change** — `project`, `featured`, `order`, `status`, `summary` already cover the content plan. Do not add fields. | AC-13 | — |
-| `src/content/projects/{aztecscan,okutama,bot-busters,boloney,olla}.md` | Rewrite to §5.2 structure and 600–900 words; delete body `# H1`; trim `summary` to ≤160 chars; correct `featured`/`order` per §8 Q3. | AC-13, AC-17 | B |
+| `src/content/projects/{aztecscan,okutama,bot-busters,boloney,olla}.md` | Rewrite to the §4.6 structure and 600–900 words; delete body `# H1`; trim `summary` to ≤160 chars; correct `featured`/`order` per §8 Q3. | AC-13, AC-17 | B |
 | `src/content/blog/{agents-near-production,ci-cd-service-by-service,documentation-drift,parallel-run}.md` | Expand to 1,000–1,500 words; add one artefact each; trim `description` to ≤160 chars; add a "what this cost / what I'd do differently" section. | AC-14, AC-17 | B |
 | `src/content/blog/{local-dev-environment,gateway-api-migration,fresh-clone-bugs}.md` | **Create** three posts (backlog #4, #11, #13), 1,200–1,800 words each, complete frontmatter, `project` set where one exists. Slugs are fixed here so RSS/sitemap tests are deterministic. | AC-15 | B |
 | `README.md` | Replace the stale "Coming Soon Landing Page" copy (advertises an email form and `tailwind.config.mjs`, neither exists) with the current stack, content workflow and verify commands. | D7 | A |
@@ -388,7 +388,7 @@ Five sections, 400–600 words, first person, no life story.
 ### 4.6 `/projects/[slug]`
 
 Header (outside prose): `h1` title, role · period, stack chips, repo/live links, status.
-Body: the six sections of §5.2, in order, 600–900 words (#5 strongly preferred, #6 where the
+Body: the six sections below, in order, 600–900 words (#5 strongly preferred, #6 where the
 project has material):
 
 1. **The problem** — what was broken, for whom (2–3 sentences, no preamble).
@@ -690,10 +690,10 @@ grep -c '^# ' src/content/projects/*.md          # must be 0 for every file
 for f in dist/projects/*/index.html; do printf '%s h1=' "$f"; grep -o '<h1' "$f" | wc -l; done
 ```
 Pass: each body 600–900 words; every file has the four mandatory headings (**The problem**, **My
-role and what I owned**, **The hard part**, **Outcome**), the fourth required page section
-(**What I'd do differently**) on the four pages where §5 does not mark it GAP, and an **Artefact**
-heading on Aztecscan, Okutama, Bot Busters and Boloney (Olla's artefact is a documented GAP — note
-it in the PR); zero body `# H1`; exactly one `<h1>` in every built project page.
+role and what I owned**, **The hard part**, **Outcome**); the four pages without a §5 GAP also have
+**What I'd do differently** and **Artefact** (Aztecscan, Okutama, Bot Busters, Boloney); Olla ships
+the four mandatory sections only, with its GAPs noted in the PR; zero body `# H1`; exactly one
+`<h1>` in every built project page.
 
 **AC-14 — posts length, artefact, tradeoff.**
 ```bash
