@@ -1,40 +1,115 @@
 ---
-// Blog post layout — wraps rendered markdown with readable typography.
 import BaseLayout from './BaseLayout.astro';
-import { formatDate } from '../lib/dates';
-import '../styles/prose.css';
+import { formatDate, formatIsoDate } from '../lib/dates';
+import { extractHeadings, readingTime } from '../lib/content';
+
+interface RelatedItem {
+  href: string;
+  title: string;
+}
 
 interface Props {
   title: string;
   description: string;
   pubDate: Date;
   tags: string[];
+  body?: string;
+  related?: RelatedItem[];
+  projectTitle?: string;
+  projectHref?: string;
 }
-const { title, description, pubDate, tags } = Astro.props;
+
+const {
+  title,
+  description,
+  pubDate,
+  tags,
+  body,
+  related = [],
+  projectTitle,
+  projectHref,
+} = Astro.props;
+
+const minutes = readingTime(body);
+const headings = extractHeadings(body);
 ---
 
-<BaseLayout title={`${title} — SOOTH.dev`} description={description}>
-  <article>
-    <header class="mb-8">
-      <a href="/blog" class="text-sm text-gruvbox-gray hover:text-gruvbox-yellow transition-colors">← Back to blog</a>
-      <h1 class="text-3xl md:text-4xl font-bold text-gruvbox-yellow mt-4 leading-tight">{title}</h1>
-      <p class="mt-3 text-gruvbox-gray">{description}</p>
-      <div class="mt-3 flex items-center gap-3 text-sm text-gruvbox-gray">
-        <time datetime={pubDate.toISOString()}>{formatDate(pubDate)}</time>
-      </div>
+<BaseLayout title={title} description={description} ogType="article" width="prose">
+  <header class="page-head wrap">
+    <a class="backlink" href="/blog">← All writing</a>
+    <h1>{title}</h1>
+    <p class="lede">{description}</p>
+    <p class="meta-row">
+      <time datetime={formatIsoDate(pubDate)}>{formatDate(pubDate)}</time>
+      <span>{minutes} min read</span>
+      {projectTitle && projectHref && <a href={projectHref}>{projectTitle}</a>}
+    </p>
+    {
+      tags.length > 0 && (
+        <ul class="chips">
+          {tags.map(tag => <li>{tag}</li>)}
+        </ul>
+      )
+    }
+  </header>
+
+  <div class="wrap reading">
+    <div class="reading__body">
+      <article class="prose">
+        <slot />
+      </article>
+
       {
-        tags.length > 0 && (
-          <div class="mt-4 flex flex-wrap gap-2">
-            {tags.map(tag => (
-              <span class="px-2.5 py-1 text-xs rounded-full bg-gruvbox-dark-bg1 border border-gruvbox-dark-bg2 text-gruvbox-gray">{tag}</span>
-            ))}
+        related.length > 0 && (
+          <div class="related">
+            <p class="related__title">Related</p>
+            <ul class="related__list">
+              {related.map(item => (
+                <li><a href={item.href}>{item.title}</a></li>
+              ))}
+            </ul>
           </div>
         )
       }
-    </header>
-
-    <div class="prose">
-      <slot />
     </div>
-  </article>
+
+    <aside class="rail" aria-label="Post details">
+      <div class="rail__row">
+        <span class="rail__label">Published</span>
+        <span class="rail__value">{formatIsoDate(pubDate)}</span>
+      </div>
+      <div class="rail__row">
+        <span class="rail__label">Reading time</span>
+        <span class="rail__value">{minutes} minutes</span>
+      </div>
+      {
+        projectTitle && projectHref && (
+          <div class="rail__row">
+            <span class="rail__label">Project</span>
+            <span class="rail__value"><a href={projectHref}>{projectTitle}</a></span>
+          </div>
+        )
+      }
+      {
+        tags.length > 0 && (
+          <div class="rail__row">
+            <span class="rail__label">Tags</span>
+            <span class="rail__value">{tags.join(', ')}</span>
+          </div>
+        )
+      }
+      {
+        headings.length > 0 && (
+          <nav class="rail__row" aria-label="On this page">
+            <span class="rail__label">On this page</span>
+            <div class="rail__links">
+              {headings.map(heading => (
+                <a href={`#${heading.id}`}>{heading.text}</a>
+              ))}
+            </div>
+          </nav>
+        )
+      }
+    </aside>
+  </div>
 </BaseLayout>

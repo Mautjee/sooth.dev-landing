@@ -1,11 +1,11 @@
 ---
-// Individual blog post page.
 import { getCollection, render } from 'astro:content';
 import BlogPost from '../../layouts/BlogPost.astro';
+import { relatedPosts } from '../../lib/content';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog', ({ data }) => !data.draft);
-  return posts.map((post) => ({
+  return posts.map(post => ({
     params: { slug: post.id },
     props: { post },
   }));
@@ -13,6 +13,17 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await render(post);
+
+const [allPosts, projects] = await Promise.all([getCollection('blog'), getCollection('projects')]);
+const project = post.data.project
+  ? projects.find(candidate => candidate.id === post.data.project)
+  : undefined;
+const others = relatedPosts(post, allPosts.filter(candidate => !candidate.data.draft));
+
+const related = [
+  ...(project ? [{ href: `/projects/${project.id}`, title: project.data.title }] : []),
+  ...others.map(other => ({ href: `/blog/${other.id}`, title: other.data.title })),
+].slice(0, 3);
 ---
 
 <BlogPost
@@ -20,6 +31,10 @@ const { Content } = await render(post);
   description={post.data.description}
   pubDate={post.data.pubDate}
   tags={post.data.tags}
+  body={post.body}
+  related={related}
+  projectTitle={project?.data.title}
+  projectHref={project ? `/projects/${project.id}` : undefined}
 >
   <Content />
 </BlogPost>

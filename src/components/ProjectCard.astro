@@ -1,0 +1,64 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+  rank?: number;
+}
+
+const { project, rank } = Astro.props;
+const d = project.data;
+
+const statusLabels = {
+  active: 'Active',
+  completed: 'Completed',
+  archived: 'Archived',
+  private: 'Private',
+} as const;
+
+const status = statusLabels[d.status];
+const chips = d.stack.slice(0, 4);
+---
+
+{
+  rank === undefined ? (
+    <article class={`project-card${d.featured ? ' project-card--featured' : ''}`}>
+      <p class="project-card__meta">
+        {d.period && <span>{d.period}</span>}
+        <span>{d.role}</span>
+        <span>{status}</span>
+      </p>
+      <h2 class="project-card__title">
+        <a href={`/projects/${project.id}`}>{d.title}</a>
+      </h2>
+      <p class="project-card__outcome">{d.summary}</p>
+      {chips.length > 0 && (
+        <ul class="chips">
+          {chips.map(item => <li>{item}</li>)}
+        </ul>
+      )}
+    </article>
+  ) : (
+    <li class="work-row">
+      <span class="work-row__index mono" aria-hidden="true">
+        {String(rank).padStart(2, '0')}
+      </span>
+      <div>
+        <h3 class="work-row__title">
+          <a href={`/projects/${project.id}`}>{d.title}</a>
+        </h3>
+        <p class="work-row__outcome">{d.summary}</p>
+        {chips.length > 0 && (
+          <ul class="chips">
+            {chips.map(item => <li>{item}</li>)}
+          </ul>
+        )}
+      </div>
+      <p class="work-row__meta">
+        {d.role}<br />
+        {d.period && <>{d.period}<br /></>}
+        {status}
+      </p>
+    </li>
+  )
+}

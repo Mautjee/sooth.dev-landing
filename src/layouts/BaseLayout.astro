@@ -1,30 +1,56 @@
 ---
-// Base layout: HTML shell, nav, footer. Used by blog + projects pages.
 import ClientRouter from 'astro/components/ClientRouter.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import Meta from '../components/Meta.astro';
+import { canonicalPath, ogKindFor, OG_IMAGE, pageTitle } from '../lib/seo';
 import '../styles/global.css';
+import '../styles/prose.css';
 
 interface Props {
-  title?: string;
-  description?: string;
+  title: string;
+  description: string;
+  width?: 'prose' | 'wide';
+  ogType?: 'website' | 'article';
+  ogImage?: string;
+  noindex?: boolean;
 }
-const { title = 'SOOTH.dev', description = 'Mauro Eijsenring — Developer' } = Astro.props;
+
+const {
+  title,
+  description,
+  width = 'prose',
+  ogType = 'website',
+  ogImage,
+  noindex = false,
+} = Astro.props;
+
+const canonical = canonicalPath(Astro.url.pathname);
+const ogKind = ogKindFor(canonical);
+const image = ogImage ?? OG_IMAGE[ogKind];
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>{title}</title>
+    <Meta
+      title={pageTitle(title)}
+      description={description}
+      canonical={canonical}
+      ogType={ogType}
+      ogImage={image}
+      ogKind={ogKind}
+      noindex={noindex}
+    />
     <ClientRouter />
   </head>
-  <body class="bg-gruvbox-dark-bg text-gruvbox-fg min-h-screen flex flex-col">
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
     <Nav />
-    <main class="flex-1 w-full mx-auto max-w-3xl px-4 py-8">
+    <main id="main" class:list={['site-main', `site-main--${width}`]}>
       <slot />
     </main>
     <Footer />

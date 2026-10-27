@@ -1,34 +1,50 @@
 ---
-// Shared top navigation — used by BaseLayout and the landing page.
-const path = Astro.url.pathname;
+const path = Astro.url.pathname.replace(/\/+$/, '') || '/';
+
+const items = [
+  { href: '/', label: 'Home' },
+  { href: '/projects', label: 'Projects' },
+  { href: '/blog', label: 'Blog' },
+  { href: '/about', label: 'About' },
+  { href: '/cv.pdf', label: 'CV' },
+] as const;
 
 function isActive(href: string): boolean {
   if (href === '/') return path === '/';
-  return path.startsWith(href);
+  if (href === '/cv.pdf') return path === '/cv.pdf';
+  return path === href || path.startsWith(`${href}/`);
 }
 ---
 
-<nav class="sticky top-0 z-50 w-full border-b border-gruvbox-dark-bg1 bg-gruvbox-dark-bg">
-  <div class="max-w-3xl mx-auto px-4 py-4 flex items-center justify-between">
-    <a href="/" class="font-bold text-gruvbox-yellow text-lg tracking-wide">SOOTH.dev</a>
-    <div class="flex items-center gap-5">
-      <a
-        href="/"
-        class={isActive('/') ? 'text-gruvbox-yellow font-medium' : 'text-gruvbox-gray hover:text-gruvbox-fg transition-colors'}
-      >Home</a>
-      <a
-        href="/blog"
-        class={isActive('/blog') ? 'text-gruvbox-yellow font-medium' : 'text-gruvbox-gray hover:text-gruvbox-fg transition-colors'}
-      >Blog</a>
-      <a
-        href="/projects"
-        class={isActive('/projects') ? 'text-gruvbox-yellow font-medium' : 'text-gruvbox-gray hover:text-gruvbox-fg transition-colors'}
-      >Projects</a>
-      <a
-        href="/cv.pdf"
-        download="Mauro Eijsenring - CV.pdf"
-        class={isActive('/cv.pdf') ? 'text-gruvbox-yellow font-medium' : 'text-gruvbox-gray hover:text-gruvbox-fg transition-colors'}
-      >CV</a>
-    </div>
+<header class="site-header">
+  <div class="wrap site-header__inner">
+    <a class="wordmark" href="/">sooth.dev</a>
+
+    <nav class="nav" aria-label="Primary">
+      <ul class="nav__list">
+        {
+          items.map(item => (
+            <li>
+              <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <details class="nav__mobile">
+      <summary>Menu</summary>
+      <nav class="nav__mobile-panel" aria-label="Primary">
+        {
+          items.map(item => (
+            <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>
+              {item.label}
+            </a>
+          ))
+        }
+      </nav>
+    </details>
   </div>
-</nav>
+</header>

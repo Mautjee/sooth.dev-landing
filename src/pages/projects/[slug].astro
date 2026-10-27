@@ -1,12 +1,11 @@
 ---
-// Individual portfolio project page.
-import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection, render } from 'astro:content';
-import '../../styles/prose.css';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { extractHeadings } from '../../lib/content';
 
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
-  return projects.map((project) => ({
+  return projects.map(project => ({
     params: { slug: project.id },
     props: { project },
   }));
@@ -15,34 +14,106 @@ export async function getStaticPaths() {
 const { project } = Astro.props;
 const { Content } = await render(project);
 const d = project.data;
+
+const statusLabels = {
+  active: 'Active',
+  completed: 'Completed',
+  archived: 'Archived',
+  private: 'Private',
+} as const;
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+const relatedPosts = posts.filter(post => post.data.project === project.id).slice(0, 3);
+const headings = extractHeadings(project.body);
 ---
 
-<BaseLayout title={`${d.title} — SOOTH.dev`} description={d.summary}>
-  <article>
-    <header class="mb-8">
-      <a href="/projects" class="text-sm text-gruvbox-gray hover:text-gruvbox-yellow transition-colors">← Back to projects</a>
-      <div class="flex items-center gap-3 mt-4 flex-wrap">
-        <h1 class="text-3xl md:text-4xl font-bold text-gruvbox-yellow">{d.title}</h1>
-        {
-          d.featured && <span class="px-2 py-0.5 text-xs rounded-full bg-gruvbox-yellow text-gruvbox-dark-bg font-semibold">Featured</span>
-        }
-      </div>
-      <p class="mt-2 text-gruvbox-gray">{d.role} · {d.period}</p>
-      <div class="mt-4 flex flex-wrap gap-2">
-        {d.stack.map(item => (
-          <span class="px-2.5 py-1 text-xs rounded-full bg-gruvbox-dark-bg1 border border-gruvbox-dark-bg2 text-gruvbox-gray">{item}</span>
-        ))}
-      </div>
+<BaseLayout title={d.title} description={d.summary} ogType="article" width="wide">
+  <header class="page-head wrap">
+    <a class="backlink" href="/projects">← All projects</a>
+    <h1>{d.title}</h1>
+    <p class="lede">{d.summary}</p>
+    <p class="meta-row">
+      <span>{d.role}</span>
+      {d.period && <span>{d.period}</span>}
+      <span>{statusLabels[d.status]}</span>
+      {d.repo && <a href={d.repo} target="_blank" rel="noopener noreferrer">Repository ↗</a>}
+      {d.live && <a href={d.live} target="_blank" rel="noopener noreferrer">Live ↗</a>}
+    </p>
+    {
+      d.stack.length > 0 && (
+        <ul class="chips">
+          {d.stack.map(item => <li>{item}</li>)}
+        </ul>
+      )
+    }
+  </header>
+
+  <div class="wrap reading">
+    <div class="reading__body">
+      <article class="prose">
+        <Content />
+      </article>
+
       {
-        (d.repo || d.live) && (
-          <div class="mt-4 flex gap-4">
-            {d.repo && <a href={d.repo} target="_blank" rel="noopener noreferrer" class="text-gruvbox-blue hover:underline">Source ↗</a>}
-            {d.live && <a href={d.live} target="_blank" rel="noopener noreferrer" class="text-gruvbox-blue hover:underline">Live ↗</a>}
+        relatedPosts.length > 0 && (
+          <div class="related">
+            <p class="related__title">Related</p>
+            <ul class="related__list">
+              {relatedPosts.map(post => (
+                <li><a href={`/blog/${post.id}`}>{post.data.title}</a></li>
+              ))}
+            </ul>
           </div>
         )
       }
-    </header>
+    </div>
 
-    <div class="prose"><Content /></div>
-  </article>
+    <aside class="rail" aria-label="Project details">
+      <div class="rail__row">
+        <span class="rail__label">Role</span>
+        <span class="rail__value">{d.role}</span>
+      </div>
+      {
+        d.period && (
+          <div class="rail__row">
+            <span class="rail__label">Period</span>
+            <span class="rail__value">{d.period}</span>
+          </div>
+        )
+      }
+      <div class="rail__row">
+        <span class="rail__label">Status</span>
+        <span class="rail__value">{statusLabels[d.status]}</span>
+      </div>
+      <div class="rail__row">
+        <span class="rail__label">Stack</span>
+        <span class="rail__value">{d.stack.join(', ')}</span>
+      </div>
+      {
+        (d.repo || d.live) && (
+          <div class="rail__row">
+            <span class="rail__label">Links</span>
+            <span class="rail__value">
+              {d.repo && <a href={d.repo} target="_blank" rel="noopener noreferrer">Repository ↗</a>}
+              {d.live && <a href={d.live} target="_blank" rel="noopener noreferrer">Live ↗</a>}
+            </span>
+          </div>
+        )
+      }
+      {
+        headings.length > 0 && (
+          <nav class="rail__row" aria-label="On this page">
+            <span class="rail__label">On this page</span>
+            <div class="rail__links">
+              {headings.map(heading => (
+                <a href={`#${heading.id}`}>{heading.text}</a>
+              ))}
+            </div>
+          </nav>
+        )
+      }
+    </aside>
+  </div>
 </BaseLayout>
