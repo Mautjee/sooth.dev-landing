@@ -66,10 +66,9 @@ a container build before.
 
 There is a third detail that looks like a mistake until you see why: the build context sits one
 level above the service directory. That is required so a service Dockerfile can `COPY` a sibling
-shared package. It also means the `.dockerignore` has to be written for the wider context, which is
-its own footgun. I have watched a build fail with `Cannot read file '.../tsconfig.json'` because a
-new file extension was not allowlisted. The fix is to treat the ignore file as part of the service,
-not as an afterthought.
+shared package. It also means the `.dockerignore` has to be written for the wider context. Treat
+that ignore file as part of the service, reviewed whenever the service gains a new file type, not
+as an afterthought.
 
 ## Data that behaves like real data
 

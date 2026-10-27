@@ -1,10 +1,15 @@
 # Content audit — sooth.dev v2
 
 Claim-by-claim evidence for every verifiable sentence in `src/content/**` on
-`build/portfolio-v2-content`. Each row names the claim as it appears on the page and the source that
+`feat/portfolio-v2`. Each row names the claim as it appears on the page and the source that
 supports it. Evidence is either a line range in the read-only research set
 (`/home/mauro/portfolio-research/`, abbreviated `research/…`), a pull request, a commit SHA, or a
 public repository path.
+
+Where a per-project deep-dive and the repository total disagree, `research/00-index.md` wins: spec
+correction #3 froze that file as the authority for commit counts. The `/about` page is owned by the
+code implementer (`SOOT-28`), but its claims are audited here because a misattribution on that page
+is exactly what this file exists to prevent.
 
 Rules applied:
 
@@ -16,8 +21,10 @@ Rules applied:
   hostnames, ARNs, registry paths or cost figures) and marked `status: private`.
 - No number appears on the site unless it is in `research/` or in a commit.
 
-Routes owned by the code implementer (`/`, `/about`, `/projects`, `/blog`, `/404`, RSS, sitemap)
-are out of scope for this file; this branch touches only `src/content/**`.
+Routes owned by the code implementer (`/`, `/projects`, `/blog`, `/404`, RSS, sitemap) are out of
+scope for this file; this branch touches only `src/content/**` and `docs/content-audit.md`. `/about`
+is the one exception: its claims are audited below because the audit had no `/about` section, which
+is how an unattributed claim survived the first review.
 
 ---
 
@@ -102,7 +109,7 @@ are out of scope for this file; this branch touches only `src/content/**`.
 | Players and 1–3 LLM bots in a group chat; everyone votes after a timed chat round | `research/02-bot-busters.md:10-21`, `:288-289` |
 | The server owns stage transitions, vote validity, scoring and player absence | `research/02-bot-busters.md:86-106` |
 | I joined a month in, worked ~4.5 months, Oct 2023 – Feb 2024 | `research/02-bot-busters.md:10`, `:42`, `:278` |
-| 44 commits, 43 merged PRs of 254; third-largest contributor | `research/02-bot-busters.md:5`, `:45`, `:276` |
+| 44 commits (of 355 repo-wide); 43 of the repo's 254 PRs; third-largest contributor | `research/00-index.md:62` (commit total and his), `research/02-bot-busters.md:5`, `:45`, `:276` (PR split). The page no longer implies 254 is a commit total |
 | `match.ts` is my top file at 13 commits | `research/02-bot-busters.md:54`, `:280` |
 | `vote()` and `calculatePoints()` are in `match.ts` | `research/02-bot-busters.md:102-107` |
 | Achievements: 8 of 9 commits, PRs #143–#307 | `research/02-bot-busters.md:55`, `:112-119` |
@@ -129,7 +136,7 @@ are out of scope for this file; this branch touches only `src/content/**`.
 | Liar's Dice as a realtime multiplayer game, built as an Aleo ZK showcase | `research/03-boloney.md:9-20` |
 | The game needs auth, wallet identity, a match loop and turn timers before a proof layer plugs in | `research/03-boloney.md:9-20`, `:98-113` |
 | One of six regular contributors over ~10 months | `research/03-boloney.md:12-13`, `:59-61` |
-| 87 of 1,209 commits (~7%) | `research/03-boloney.md:4`, `:13`, `:241` |
+| 87 of 1,228 commits (~7%) | `research/00-index.md:63` is the authority (spec correction #3); `research/03-boloney.md:13` carries his count. The deep-dive's own 1,209 total (`03:4`, `:241`) is stale and is not used |
 | Match state machine generations 1 and 2: `44a6389a` → `91372108` → `f8d932e7` | `research/03-boloney.md:70`, `:99-106` |
 | Timer service `2f42a6cd`, 96 lines | `research/03-boloney.md:71`, `:104` |
 | Notification system `bfedc840` | `research/03-boloney.md:72` |
@@ -164,6 +171,7 @@ are out of scope for this file; this branch touches only `src/content/**`.
 | **Not claimed:** users, TVL, uptime, audit outcomes | No source: `research/01-aztec-scan.md:193-197` |
 | **Not claimed:** a specific hard-part decision beyond the shared-platform choice | `research/01-aztec-scan.md:196-197` leaves the role open; the weaker platform claim is `public/cv.md:61` |
 | **Omitted artefact** | No verifiable snippet exists (`research/00-index.md:38-46`); an illustrative diagram was rejected. Recorded in the PR |
+| **Deviation from AC-13, deliberate:** page is 573 words against the 600-word floor | This is a GAP page: there is no `05-olla.md`, the claims are owner-asserted, and padding it to clear a word count would add unevidenced prose. Quality accepted this as the correct call for a GAP page. The audit records it here so the deviation is visible to every later reader. No padding was added |
 
 ---
 
@@ -236,7 +244,7 @@ are out of scope for this file; this branch touches only `src/content/**`.
 | Old deployment topologies kept as `-deprecated` manifest sets, still present | `research/04-okutama.md:172-180`; `research/90-cross-cutting.md:57` |
 | Aztecscan: one service at a time, `explorer-ui-v2` pilot, old pipeline deployed the rest | `research/01-aztec-scan.md:121-124` |
 | Aztecscan: ingress one network at a time (devnet, testnet, mainnet) | `research/01-aztec-scan.md:138-145` |
-| EKS: controllers first, then one minor version at a time with verification | `research/04-okutama.md:370-386` |
+| EKS 1.33 → 1.35 **proposal**: controllers first, then one minor version at a time with verification | `research/04-okutama.md:370-386`; **not executed** — ADR-0008 lives on the unmerged branch `DEV-5205-check-whether-eks-1-33-upgrade` (`research/04-okutama.md:387-392`). The artefact table row is marked "proposed, not executed" and the timeline intro separates it from the four shipped migrations |
 | **Softened:** the last column ("old path removed") for the Aztecscan ingress row says "in progress when I left" | `research/01-aztec-scan.md:145` describes it as rolling out network by network |
 | **Not claimed:** durations, outage counts or incident numbers beyond the documented 10 days / 10 weeks | No other source |
 
@@ -256,6 +264,7 @@ are out of scope for this file; this branch touches only `src/content/**`.
 | A dozen services / full multi-service stack | `research/04-okutama.md:429` |
 | Minikube, not EKS | `research/04-okutama.md:196-198` |
 | **Genericised:** no client name, hostnames, ARNs, account IDs, or internal service names | Drafted from `research/04-okutama.md:237-242`; the gate in `research/91-content-backlog.md:25` is satisfied by genericisation (spec correction 5) |
+| **Removed (F9):** the `Cannot read file '.../tsconfig.json'` failure | That failure is Aztecscan's `.dockerignore` allowlist story (`research/01-aztec-scan.md:132-134`), not this platform's. The sentence was cut here; `/blog/ci-cd-service-by-service` carries it where it belongs |
 | **Not claimed:** a literal terminal transcript of a specific run | Not recorded in the research set; the post shows the real command interface and the documented cold-start figure, not invented output |
 
 ---
@@ -296,6 +305,38 @@ are out of scope for this file; this branch touches only `src/content/**`.
 
 ---
 
+## /about
+
+Owned by the code implementer (`src/pages/about.astro`), audited here because its absence from the
+first audit is how an unattributed claim survived Quality's review (F3). Wording below matches the
+page after the F3 correction, which is `SOOT-28`'s change: "I built the first two; the third I
+worked within."
+
+| Claim on the page | Evidence |
+|---|---|
+| Platform and infrastructure engineer who takes prototypes to production | Self-description, backed by the role/period of every project page; no number claimed |
+| Works across Go and TypeScript services, Kubernetes, CI/CD | `public/cv.md:110-118` (skills); Go services in `research/04-okutama.md:144-157`; TypeScript services in `research/01-aztec-scan.md:26-30` |
+| Freelancing since 2024 | `public/cv.md:21-23` (`Jul 2024 – Present`) |
+| Mostly teams whose product had outgrown its deployment | Framing, evidenced by the two client engagements: `research/04-okutama.md:19-28` (unmanaged Lambda/App Runner) and `research/01-aztec-scan.md:113-127` (per-service CI/CD) |
+| Aztecscan shipped more than ten protocol versions while he was there | `research/01-aztec-scan.md:51`, `:348` |
+| Three live networks ran different protocol versions on purpose | `research/01-aztec-scan.md:138-145` |
+| Wrote about a third of the Aztecscan codebase | `research/00-index.md:58` (678 of 1,812); `research/01-aztec-scan.md:17`, `:339` |
+| Owned the CI/CD and production manifests | `research/01-aztec-scan.md:46-49`, `:106` |
+| The Grid was unmanaged Lambda + App Runner with no environment separation | `research/04-okutama.md:19-28`, `:44-68` |
+| Rebuilt it as a Kubernetes platform, environment by environment | `research/04-okutama.md:128-157` |
+| Owned the match state machine in both Bot Busters and Boloney | `research/02-bot-busters.md:54`; `research/03-boloney.md:70`, `:99-106` |
+| A 459-line CI/CD migration plan | `research/01-aztec-scan.md:49`; `research/90-cross-cutting.md:73` |
+| A 373-line ingress migration plan | `research/01-aztec-scan.md:74` |
+| An ADR that compared four rejected options before recommending one | `research/04-okutama.md:359-386` |
+| Reviewed his own decision record in the critical/important/suggestion taxonomy | `research/04-okutama.md:84`; PR #498 |
+| Kept the old path until the new one was proven; `-deprecated` manifests still present | `research/04-okutama.md:172-180`; `research/90-cross-cutting.md:53-59` |
+| The ten-week gap between the Envoy cutover and removing nginx | `research/04-okutama.md:139`, `:433`. The final removal commit is someone else's (`04:93`); the page praises the gap, not authorship of the removal |
+| Agent conventions in writing; one governed data path; human confirmation before irreversible work | First two are his: `research/01-aztec-scan.md:50`, `:288` (`.opencode/agents/devops.md`, PR #612); `research/04-okutama.md:83`, `:332-348` (MCP server, PRs #495–#502). **The human-confirmation interlock is Filip's**: `research/01-aztec-scan.md:66-70`, `research/90-cross-cutting.md:39-41`. The F3 sentence was corrected to "I built the first two; the third I worked within" |
+| "Open to freelance platform and infrastructure work" | Owner decision, 2026-10-27 (SOOT-29 decision record), not a factual claim about the past |
+| Contact links (`mailto:sooth.dev@gmail.com`, GitHub, LinkedIn, CV) | `public/cv.md:11-14` for identity and LinkedIn; the email is the owner-provided public contact. No phone, address or birth date appears |
+
+---
+
 ## What was deliberately not written
 
 Backlog items #2, #3, #5, #6, #7, #12, #14 and #15 were not written. Each is gated on client
@@ -312,3 +353,5 @@ sign-off, cost figures, attribution answers or an unresolved factual question
 | Bot Busters players/matches/day/uptime | Not visible from source: `research/02-bot-busters.md:290-291` |
 | Boloney player/concurrent-match numbers | Not in git: `research/03-boloney.md:253-255` |
 | Olla users/TVL/uptime | No source: `research/01-aztec-scan.md:193-197` |
+| Boloney "1,209 commits" denominator | Stale deep-dive total; replaced with `1,228` from `research/00-index.md:63` (F6) |
+| Bot Busters "out of 254" | 254 is the repo's PR total, not a commit total; relabelled "43 of the repo's 254 pull requests" (F7) |

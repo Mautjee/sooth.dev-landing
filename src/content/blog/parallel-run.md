@@ -113,8 +113,8 @@ PR #38  production        -> Envoy Gateway serves
         +--> dead nginx definitions removed
 ```
 
-The four migrations as a timeline. The last column is the point: in three of the four, the old path
-outlived the cutover by weeks or months.
+Four shipped migrations and one proposal, as a timeline. The last column is the point: in three of
+the four shipped ones, the old path outlived the cutover by weeks or months.
 
 | Migration | Cutover unit | Cutover | Old path removed |
 |---|---|---|---|
@@ -122,6 +122,6 @@ outlived the cutover by weeks or months.
 | Aztecscan: nginx → Envoy Gateway | one network (devnet, testnet, mainnet) | progressive | in progress when I left |
 | The Grid: nginx-ingress → Envoy Gateway | one environment (local+staging, then production) | PR #13, then PR #38 ten days later | ~10 weeks after production cutover |
 | The Grid: old deployment topologies | one service at a time | PR #17 onward | `-deprecated` manifest sets still present |
-| The Grid: EKS 1.33 → 1.35 | one minor version at a time | controllers first, then 1.34, then 1.35 | previous version retired after verification |
+| The Grid: EKS 1.33 → 1.35 | one minor version at a time | **proposed**, not executed: controllers first, then 1.34, then 1.35 | **proposed** sign-off: retire each version after verification |
 
 If you cannot fill in the last column for your own migration, you have not finished planning it.
