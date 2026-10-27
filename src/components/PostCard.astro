@@ -1,0 +1,44 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
+import { formatDate, formatIsoDate } from '../lib/dates';
+import { readingTime } from '../lib/content';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+  showProject?: boolean;
+}
+
+const { post, showProject = false } = Astro.props;
+const d = post.data;
+const minutes = readingTime(post.body);
+
+let projectTitle: string | undefined;
+if (showProject && d.project) {
+  const projects = await getCollection('projects');
+  projectTitle = projects.find(project => project.id === d.project)?.data.title;
+}
+---
+
+<article class="post-row">
+  <p class="post-row__meta">
+    <time datetime={formatIsoDate(d.pubDate)}>{formatDate(d.pubDate)}</time>
+    <span>{minutes} min read</span>
+    {projectTitle && d.project && (
+      <a class="post-row__project" href={`/projects/${d.project}`}>{projectTitle}</a>
+    )}
+  </p>
+  <div>
+    <h2 class="post-row__title">
+      <a href={`/blog/${post.id}`}>{d.title}</a>
+    </h2>
+    <p class="post-row__desc">{d.description}</p>
+    {
+      d.tags.length > 0 && (
+        <ul class="chips">
+          {d.tags.map(tag => <li>{tag}</li>)}
+        </ul>
+      )
+    }
+  </div>
+</article>

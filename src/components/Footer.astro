@@ -1,16 +1,21 @@
 ---
-// Shared footer — used by BaseLayout and the landing page.
 const year = new Date().getFullYear();
 ---
 
-<footer class="w-full border-t border-gruvbox-dark-bg1 mt-8">
-  <div class="max-w-3xl mx-auto px-4 py-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-sm text-gruvbox-gray">
-    <p>© {year} Sooth.dev</p>
-    <div class="flex items-center gap-4">
-      <a href="https://github.com/Mautjee" target="_blank" rel="noopener noreferrer" class="hover:text-gruvbox-fg transition-colors">GitHub</a>
-      <a href="https://www.linkedin.com/in/mauro-eijsenring/" target="_blank" rel="noopener noreferrer" class="hover:text-gruvbox-fg transition-colors">LinkedIn</a>
-      <a href="/cv.pdf" download="Mauro Eijsenring - CV.pdf" class="hover:text-gruvbox-fg transition-colors">CV</a>
-      <a href="mailto:sooth.dev@gmail.com" class="hover:text-gruvbox-fg transition-colors">Email</a>
-    </div>
+<footer class="site-footer">
+  <div class="wrap site-footer__inner">
+    <p class="site-footer__name">sooth.dev</p>
+    <nav class="site-footer__links" aria-label="Elsewhere">
+      <a href="mailto:sooth.dev@gmail.com">Email</a>
+      <a href="https://github.com/Mautjee" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a
+        href="https://www.linkedin.com/in/mauro-eijsenring/"
+        target="_blank"
+        rel="noopener noreferrer">LinkedIn</a
+      >
+      <a href="/about">About</a>
+      <a href="/rss.xml">RSS</a>
+    </nav>
+    <p class="site-footer__legal">© {year} Mauro Eijsenring · built with Astro</p>
   </div>
 </footer>

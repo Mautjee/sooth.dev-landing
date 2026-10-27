@@ -1,0 +1,30 @@
+---
+interface Props {
+  id?: string;
+  eyebrow?: string;
+  title?: string;
+  lede?: string;
+  as?: 'h2' | 'h3';
+  more?: { href: string; label: string };
+}
+
+const { id, eyebrow, title, lede, as = 'h2', more } = Astro.props;
+const Heading = as;
+const headingId = id ? `${id}-title` : undefined;
+---
+
+<section class="band wrap" id={id} aria-labelledby={headingId}>
+  {
+    (title || eyebrow || more) && (
+      <div class="band__head">
+        <div>
+          {eyebrow && <p class="mono muted text-meta">{eyebrow}</p>}
+          {title && <Heading class="band__title" id={headingId}>{title}</Heading>}
+        </div>
+        {more && <a class="band__more" href={more.href}>{more.label} →</a>}
+      </div>
+    )
+  }
+  {lede && <p class="lede">{lede}</p>}
+  <slot />
+</section>

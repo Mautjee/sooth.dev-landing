@@ -1,71 +1,54 @@
-# Coming Soon Landing Page
+# sooth.dev
 
-A beautiful, animated "Coming Soon" landing page built with Astro.js, Tailwind CSS, and the Gruvbox color scheme.
+Mauro Eijsenring's portfolio: platform and infrastructure work with the commits, pull requests and
+tradeoffs that back each claim.
 
-## Features
+## Stack
 
-- 🎨 Beautiful Gruvbox color palette
-- ✨ Smooth animations and transitions
-- 📱 Fully responsive design
-- 🐳 Docker containerized
-- ⚡ Built with Astro.js and Bun
-- 💌 Email signup form
-- 🎭 Interactive mouse effects
+- **Astro 7** — static output, content collections (`glob` loader), `entry.id` slugs.
+- **Tailwind CSS v4** — CSS-first configuration. Tokens live in `src/styles/global.css` `@theme`;
+  there is no `tailwind.config.mjs`.
+- **Bun** — package manager and task runner.
+- **Docker + nginx** — the production image; `nginx.conf` serves `404.html` with a 404 status.
 
 ## Development
 
-### Local Development
-
 ```bash
-# Install dependencies
 bun install
-
-# Start development server
-bun run dev
+bun run dev        # http://localhost:3000
+bun run build      # static build into dist/
+bun run preview    # serve dist/ locally
 ```
 
-### Docker Development
+`bun run build` also runs `scripts/postbuild.mjs`, which enforces the one-`h1`-per-page invariant on
+the built HTML.
+
+## Content
+
+- Posts: `src/content/blog/*.md` — `title`, `description`, `pubDate`, optional `updatedDate`,
+  `tags`, `project` (slug of a project entry), `draft`.
+- Projects: `src/content/projects/*.md` — `title`, `role`, optional `period`, `repo`, `live`,
+  `stack`, `status` (`active | completed | archived | private`), `summary`, `featured`, `order`,
+  `tags`.
+
+Add a markdown file and it appears on `/blog` or `/projects`. Do not add an `# H1` to a body — the
+layout renders the title.
+
+## Verification
+
+`scripts/verify.mjs` is dependency-free and used as acceptance evidence (spec §6):
 
 ```bash
-# Run in development mode
-docker-compose --profile dev up
-
-# Or run production build
-docker-compose up
+node scripts/verify.mjs meta dist
+node scripts/verify.mjs weight dist public
+node scripts/verify.mjs motion http://localhost:4321/ http://localhost:4321/projects/aztecscan/
+node scripts/verify.mjs layout http://localhost:4321/ --width 360
+node scripts/verify.mjs shots http://localhost:4321 docs/evidence/screens
 ```
 
-## Building
+The browser subcommands use the Chromium/Playwright already installed in the build sandbox; nothing
+is added to `package.json`.
 
-```bash
-# Build for production
-bun run build
+## Deployment
 
-# Preview production build
-bun run preview
-```
-
-## Docker Commands
-
-```bash
-# Build and run production container
-docker build -t coming-soon .
-docker run -p 3000:3000 coming-soon
-
-# Using docker-compose
-docker-compose up -d
-```
-
-## Customization
-
-- Update the company name and branding in `src/pages/index.astro`
-- Modify colors in `tailwind.config.mjs` 
-- Add your own favicon in `public/favicon.svg`
-- Customize animations and styling as needed
-
-## Tech Stack
-
-- **Astro.js** - Static site generator
-- **Tailwind CSS** - Utility-first CSS framework
-- **Bun** - Fast JavaScript runtime and package manager
-- **Docker** - Containerization
-- **Gruvbox** - Color scheme
+Merging to `main` is the deploy trigger. Do not force-push `main`; open a pull request.

@@ -1,0 +1,50 @@
+---
+import { absoluteUrl, OG_IMAGE_ALT, type OgKind, trimDescription } from '../lib/seo';
+
+interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  ogType?: 'website' | 'article';
+  ogImage?: string;
+  ogKind?: OgKind;
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  canonical,
+  ogType = 'website',
+  ogImage,
+  ogKind = 'home',
+  noindex = false,
+} = Astro.props;
+
+const metaDescription = trimDescription(description);
+const canonicalUrl = absoluteUrl(canonical);
+const imageUrl = ogImage ? absoluteUrl(ogImage) : undefined;
+---
+
+<title>{title}</title>
+<meta name="description" content={metaDescription} />
+{noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonicalUrl} />}
+{
+  !noindex && imageUrl && (
+    <>
+      <meta property="og:title" content={title} />
+      <meta property="og:description" content={metaDescription} />
+      <meta property="og:type" content={ogType} />
+      <meta property="og:url" content={canonicalUrl} />
+      <meta property="og:site_name" content="sooth.dev" />
+      <meta property="og:image" content={imageUrl} />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:alt" content={OG_IMAGE_ALT[ogKind]} />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content={title} />
+      <meta name="twitter:description" content={metaDescription} />
+      <meta name="twitter:image" content={imageUrl} />
+    </>
+  )
+}

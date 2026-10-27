@@ -7,6 +7,6 @@ export function formatDate(date: Date): string {
   }).format(date);
 }
 
-export function formatPeriod(period: string): string {
-  return period;
+export function formatIsoDate(date: Date): string {
+  return date.toISOString().slice(0, 10);
 }

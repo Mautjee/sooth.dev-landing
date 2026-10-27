@@ -2,6 +2,7 @@ import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
+  site: 'https://sooth.dev',
   vite: {
     plugins: [tailwindcss()],
   },
@@ -11,7 +12,7 @@ export default defineConfig({
   },
   markdown: {
     shikiConfig: {
-      theme: 'github-dark',
+      theme: 'css-variables',
     },
   },
 });
