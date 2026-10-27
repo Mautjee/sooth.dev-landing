@@ -83,8 +83,8 @@ the repo.
 | D3 | One narrow column everywhere | `BaseLayout.astro:27` `max-w-3xl`; `Nav.astro:12` `max-w-3xl` (SOOT-25 said `Nav.astro:9` — moved) | drifted (line only) |
 | D4 | One heading style repeated | `blog/index.astro:12`, `projects/index.astro:21`, `projects/[slug].astro:25`, `BlogPost.astro:20` all `text-3xl md:text-4xl font-bold text-gruvbox-yellow` | confirmed |
 | D5 | Two HTML shells | `index.astro:9-115` re-implements doctype/head/body/nav/footer; `BaseLayout.astro:15-31` does the same | confirmed |
-| D6 | Failing contrast on metadata grey | `#928374` on `#282828` = **4.02:1**, on `#3c3836` = **3.16:1** (recomputed, §11.3). Used at `blog/index.astro:13,27,29,34`, `projects/index.astro:22,45,51,54`, `BlogPost.astro:19,21,22,29`, `prose.css:28` | confirmed |
-| D7 | Inline code contrast fails | `#d3869b` on `#3c3836` = **4.23:1** (`prose.css:34`); proposed `#e0a3b8` = **5.58:1** | confirmed |
+| D6 | Failing contrast on metadata grey | `#928374` on `#282828` = **4.02:1**, on `#3c3836` = **3.16:1** (recomputed, §11.3). Used at `blog/index.astro:13,27,29,34`, `projects/index.astro:22,45,51,54`, `BlogPost.astro:19,21,22,29` | confirmed |
+| D7 | Inline code contrast fails | `#d3869b` on `#3c3836` = **4.23:1** (`prose.css:33-38`); proposed `#e0a3b8` = **5.58:1** | confirmed |
 | D8 | Light palette defined but unused | `global.css:21-32` defines `--color-gruvbox-light-*`; `grep -r "gruvbox-light" src/` = 0 uses outside the definition | confirmed |
 | D9 | `prose.css` hardcodes hex instead of tokens | `prose.css:3,11,18,21,22,23,25,28,33,34,38,41,42,48,53,54,56,57` — 18 hex literals, zero `var(--color-gruvbox-*)` | confirmed |
 | D10 | Raw hex outside `@theme` in `global.css` | `global.css:86-87` `background-color: #282828; color: #ebdbb2;` | confirmed |
@@ -96,7 +96,7 @@ the repo.
 | D16 | Project pages have no fixed structure | Headings differ per file: aztecscan `## What I worked on` (:22) / `## Agents, made safe for production` (:33) / `## Was it honest?` (:40); olla `## What I worked on` (:21) / `## One platform, two products` (:29); okutama `## What I worked on` (:21) / `## Governed AI-agent data access` (:31); boloney `## The framing that matters most` (:21) / `## What I owned` (:33); bot-busters `## What I owned` (:22). No shared "hard part / outcome / differently" sections | confirmed |
 | D17 | No images/artefacts on any post or project | `grep -rnE '!\[' src/content` = 0 matches; `grep -rcF '```' src/content/blog/*.md` = 0/0/0/0 — **no post has a code fence** | confirmed |
 | D18 | `bot-busters.md` is the strongest | It names teammates' work and what he did not build (`bot-busters.md:39-46`) | confirmed |
-| D19 | Avatar has no dimensions → layout shift | `index.astro:36` `<img class="w-full h-full object-cover" src="/ava.png" …>` — no `width`/`height`/`aspect-ratio`; `public/ava.png` = 98.5 KB, 256×256 | confirmed |
+| D19 | Avatar has no dimensions → layout shift | `index.astro:36` `<img class="w-full h-full object-cover" src="/ava.png" …>` — no `width`/`height`/`aspect-ratio`; `public/ava.png` = 98.5 KiB (100,843 B), **203×256** | confirmed (work order said 256 px square; the file is 203 wide) |
 | D20 | Nav has no mobile treatment | `Nav.astro` contains zero `sm:`/`md:`/`lg:` variants; four links + wordmark on one row (`.astro:12-18`); `grep -cE "sm:|md:|lg:"` = 0 | confirmed |
 | D21 | No skip link, no `:focus-visible` | `grep -rn "skip\|focus-visible" src/styles/` = 0 matches | confirmed |
 | D22 | No `loading="lazy"` | `grep -rn 'loading="lazy"' src/` = 0 matches | confirmed |
@@ -119,7 +119,7 @@ These are recorded so the implementers do not copy a wrong fact into the site.
    unanswered (`TODO(mauro)`). The current Olla page therefore rests on `public/cv.md` claims
    (frontend, Go backend, data pipelines, 3-developer team). Treat those as **owner-asserted**,
    not research-evidenced; see §5.5.
-5. **Backlog status of new post #4 is 🟡, not 🟢.** `91-content-backlog.md:31` lists "The
+5. **Backlog status of new post #4 is 🟡, not 🟢.** `91-content-backlog.md:25` lists "The
    10-minute local development environment" as `🟡 gated — Genericize internals`. SOOT-25 §5.3
    calls its three picks "🟢 ungated". Resolution: write #4 **genericised** (no client name,
    hostnames, account IDs, ARNs, or internal service names beyond the public mechanism). The gate
@@ -130,6 +130,11 @@ These are recorded so the implementers do not copy a wrong fact into the site.
 7. **`/cv.md` and the footer disagree on contact email.** `public/cv.md:13` lists
    `mauro@eijsenring.com`; the site footer uses `sooth.dev@gmail.com` (`Footer.astro:13`). The
    about page uses the site address only; see §8 Q6.
+8. **The avatar is not square and is already under the public budget.** `public/ava.png` is
+   203×256, 100,843 B (98.5 KiB), not the "256 px square at 100 KB" the work order describes. It
+   clears AC-20's 102,400 B ceiling today, but it still lacks dimensions and is served at 128 px
+   display size, so moving it to `src/assets/` and using `<Image>` is a payload win, not a
+   threshold fix. Do not upscale the source.
 
 ---
 
@@ -171,7 +176,7 @@ the same PR adds `redirects: { '/old': '/new' }` and lists it here.
 | `public/og/{home,about,blog,post,projects,project}.png` | Six 1200×630 PNGs, one per page type, ≤35 KB each, authored in stage 2 from rendered HTML at 1200×630. See §3.6. | AC-10 | A (Designer produces) |
 | `src/assets/ava.png` | Avatar source for `<Image>`; byte-identical to the deleted `public/ava.png`. | AC-19, AC-20 | A |
 | `docs/content-audit.md` | Claim → evidence table for every verifiable sentence on every page (§6 AC-17). Written as content lands, verified by Quality. | AC-17 | B |
-| `scripts/verify.mjs` | Dependency-free Node 22 checks: `meta`, `motion`, `layout`, `weight`. Used as AC evidence; not shipped, not a dependency. | AC-4, AC-6, AC-9, AC-19, AC-20 | B |
+| `scripts/verify.mjs` | Dependency-free Node 22 checks: `meta`, `motion`, `layout`, `shots`, `weight`, `audit` (§6). Used as AC evidence; not shipped, not a dependency. | AC-4, AC-6, AC-9, AC-19, AC-20 | B |
 
 ### 3.3 Modified
 
@@ -254,7 +259,7 @@ view transition (AC-4).
 
 ### 3.6 OG-image mechanism (no new dependency)
 
-**Decision:** six committed static PNGs, one per page type, selected by route in `src/lib/seo.ts`.
+**Decision:** six committed static PNGs, one per page type, selected by `ogKindFor(pathname)` in `src/lib/seo.ts`; `BaseLayout` uses it as the default `ogImage` and `Meta` emits it.
 The Designer renders a 1200×630 HTML card in headless Chromium during stage 2 and commits the PNG
 to `public/og/`. `Meta.astro` emits `og:image` = `absoluteUrl(OG_IMAGE[kind])` plus
 `og:image:width` 1200, `og:image:height` 630, `og:image:alt`.
@@ -274,6 +279,7 @@ Rejected alternatives, with the cost that decided it:
 // src/lib/seo.ts
 export type OgKind = 'home' | 'about' | 'blog' | 'post' | 'projects' | 'project';
 export const OG_IMAGE: Record<OgKind, string>;
+export function ogKindFor(pathname: string): OgKind;   // '/projects/x' → 'project'
 export function absoluteUrl(path: string): string;
 export function pageTitle(short: string): string;      // "X — sooth.dev" iff ≤60 chars
 
@@ -330,7 +336,8 @@ No other agent touches these files. Neither owner edits `public/cv.md` / `public
 ## 4. Content outline per route (D5)
 
 Each band answers exactly one question, in this order. Copy is the Implementer's; the *claim* and
-its evidence are fixed here. Word counts exclude frontmatter and code blocks unless stated.
+its evidence are fixed here. Word counts exclude frontmatter; fenced blocks count unless stated
+(see §8 Q12).
 
 ### 4.1 `/` — home
 
@@ -348,7 +355,7 @@ Five sections, 400–600 words, first person, no life story.
 
 | # | Section | Answers |
 |---|---|---|
-| 1 | Opening | Who Mauro is as an engineer, in one paragraph: platform/infrastructure + full-stack, ~5 years shipping, currently freelance. |
+| 1 | Opening | Who Mauro is as an engineer, in one paragraph: platform/infrastructure + full-stack, currently freelance. No invented years-of-experience number; use the CV's project dates if a date is needed. |
 | 2 | The arc | What the projects add up to: Aztecscan (scale, protocol churn) → The Grid (serverless → Kubernetes) → Bot Busters/Boloney (realtime state machines). Concrete nouns, project links. |
 | 3 | How I work | Decision records, parallel-run migrations, review, AI-agent guardrails. Three short paragraphs, each tied to a real artefact (ADR-0008, `docs/ci-cd-migration.md`, MCP server). |
 | 4 | Availability | What he takes on (platform/infrastructure/full-stack, contract or freelance). Wording: availability, not a CV objective. |
@@ -381,7 +388,8 @@ Five sections, 400–600 words, first person, no life story.
 ### 4.6 `/projects/[slug]`
 
 Header (outside prose): `h1` title, role · period, stack chips, repo/live links, status.
-Body: exactly the six sections of §5.2, in order, 600–900 words:
+Body: the six sections of §5.2, in order, 600–900 words (#5 strongly preferred, #6 where the
+project has material):
 
 1. **The problem** — what was broken, for whom (2–3 sentences, no preamble).
 2. **My role and what I owned** — evidence: PR numbers, files, commit counts; name what a
@@ -462,10 +470,10 @@ claim to ship instead. Content must not exceed what the anchor supports.
 
 | Section | Claim to make | Anchor |
 |---|---|---|
-| Problem | Liquid staking for the Aztec privacy L2 needs a user-facing staking UI plus backend services and pipelines that keep staking data accurate. | `public/cv.md:60-64` (owner-asserted) |
-| Role | Frontend (`ollafinance/olla-ui`) + Go backend services + data pipelines, in a 3-developer team; ran on the same Kubernetes platform design as the explorer but isolated from it. Evidence available today: **70 commits** by `Mautjee` in `ollafinance/olla-ui` (GitHub API, `author=Mautjee`, 2026-10-27); org repos include `olla-butler` and `staking-dashboard`. | `public/cv.md:60-64`; GitHub API count; `01-aztec-scan.md:193-197` |
-| Hard part | **GAP** — research has no Olla deep-dive and no specific decision is evidenced. Weaker honest claim: "the platform was deliberately the same design as the explorer but isolated, so a second product ran on hardware that already existed." | `public/cv.md:60-64`; `01:193-197` |
-| Outcome | Shipped liquid-staking product on the shared platform. Do **not** claim users, TVL, uptime or audit outcomes. | `public/cv.md:60-64` |
+| Problem | Liquid staking for the Aztec privacy L2 needs a user-facing staking UI plus backend services and pipelines that keep staking data accurate. | `public/cv.md:57-63` (owner-asserted) |
+| Role | Frontend (`ollafinance/olla-ui`) + Go backend services + data pipelines, in a 3-developer team; ran on the same Kubernetes platform design as the explorer but isolated from it. Evidence available today: **70 commits** by `Mautjee` in `ollafinance/olla-ui` (GitHub API, `author=Mautjee`, 2026-10-27); org repos include `olla-butler` and `staking-dashboard`. | `public/cv.md:57-63`; GitHub API count; `01-aztec-scan.md:193-197` |
+| Hard part | **GAP** — research has no Olla deep-dive and no specific decision is evidenced. Weaker honest claim: "the platform was deliberately the same design as the explorer but isolated, so a second product ran on hardware that already existed." | `public/cv.md:57-63`; `01:193-197` |
+| Outcome | Shipped liquid-staking product on the shared platform. Do **not** claim users, TVL, uptime or audit outcomes. | `public/cv.md:57-63` |
 | Differently | **GAP** — omit rather than invent. | — |
 | Artefact | **GAP** — no verified snippet. Omit the artefact for this page rather than shipping a generic one; note the omission in the PR. | — |
 | **GAP** | No `05-olla.md` exists. The 3-developer team, Go backend and pipeline claims are owner-asserted in `cv.md`, not research-evidenced. The page must not present them as audited facts. If Mauro can supply a repo/PR, the anchor replaces the weaker claim. See §8 Q5. | — |
@@ -552,18 +560,24 @@ done
 for u in /cv.pdf /cv.md; do printf '%s ' "$u"; curl -sI "$SITE$u" | grep -iE '^HTTP|^content-type|^content-disposition'; done
 ```
 Pass: every content route `200 0`; `/cv.pdf` `200` with `application/pdf` and
-`content-disposition: attachment`; `/cv.md` `200` (`text/markdown` or `text/plain`). No redirect
-entries exist, so `num_redirects` must be 0.
+`content-disposition: attachment`; `/cv.md` `200` with a `text/*` or `application/octet-stream` type.
+No redirect entries exist, so `num_redirects` must be 0.
 
 **AC-3 — no JS dependence, ≤15 KB JS.**
 ```bash
 grep -rn "<script" src/ ; echo "authored-scripts=$?"            # expect: no output, exit 1
 find dist/_astro -name '*.js' -print0 | xargs -0 -r gzip -c | wc -c   # bytes, gzipped
-chromium --headless --no-sandbox --blink-settings=scriptEnabled=false \
-  --dump-dom "$BASE/blog/parallel-run" | sed -n 's/.*<main[^>]*>//p' | wc -c
+for u in / /about /blog /blog/parallel-run /projects /projects/aztecscan; do
+  n=$(echo "$u" | tr '/' '_')
+  chromium --headless --no-sandbox --blink-settings=scriptEnabled=false \
+    --dump-dom "$BASE$u" > "/tmp/nojs${n}.html"
+  printf '%s bytes=%s title=%s\n' "$u" "$(wc -c < "/tmp/nojs${n}.html")" \
+    "$(grep -c '<h1' "/tmp/nojs${n}.html")"
+done
 ```
-Pass: no authored `<script>`; total JS ≤15360 bytes gzipped; the JS-disabled `innerText`/DOM dump
-contains the post title and the first body sentence. Record the byte count in the PR.
+Pass: no authored `<script>`; total JS ≤15360 bytes gzipped; for **all six** routes the JS-disabled
+DOM is >5 KB, contains its `<h1>` text, and contains the first body sentence (read
+`/tmp/nojs*.html`). Record the JS byte count in the PR.
 
 **AC-4 — motion budget, reduced-motion honoured.**
 ```bash
@@ -584,7 +598,7 @@ grep -c "var(--color-" src/pages/*.astro src/pages/*/*.astro | grep -v ':0' | wc
 ```
 Pass: first command prints nothing; `prose.css` has ≥10 token references; no page uses a literal
 palette class (`bg-gruvbox-*`, `text-gruvbox-gray`, `border-gruvbox-*`) — `grep -rn "gruvbox-"
-src/pages src/components` must be 0 except `src/styles/global.css`.
+src/pages src/components` must be 0.
 
 ### Design
 
@@ -623,11 +637,13 @@ Produces 18 full-page PNGs (6 routes × 3 widths): `/`, `/blog`, `/blog/parallel
 ```bash
 node scripts/verify.mjs meta dist
 ```
-Pass per built HTML file: exactly one `<title>` of 1–60 chars; one `<meta name="description">` of
-1–160 chars; `<link rel="canonical">` absolute and equal to `https://sooth.dev` + route (no
-trailing slash except `/`); `og:title`, `og:description`, `og:type`, `og:url`, `og:image`
-(absolute), `og:image:width=1200`, `og:image:height=630`, `twitter:card` present; all titles
-unique; home title does not contain "Links". Script prints a table and exits non-zero on any
+Pass for every built HTML file **except `404.html`**: exactly one `<title>` of 1–60 chars; one
+`<meta name="description">` of 1–160 chars; `<link rel="canonical">` absolute and equal to
+`https://sooth.dev` + route (no trailing slash except `/`); `og:title`, `og:description`,
+`og:type`, `og:url`, `og:image` (absolute), `og:image:width=1200`, `og:image:height=630`,
+`twitter:card` present; all titles unique; home title does not contain "Links". `404.html` is
+exempt from OG/canonical but must carry a title, a description and
+`<meta name="robots" content="noindex">`. Script prints a table and exits non-zero on any
 missing/over-length field.
 
 **AC-10 — OG image fetchable and correct.**
@@ -648,8 +664,8 @@ grep -o "<loc>[^<]*</loc>" dist/sitemap.xml | wc -l
 grep -E "Sitemap:" dist/robots.txt
 grep -c "<link>https://sooth.dev/blog/" dist/rss.xml
 ```
-Pass: `xml ok`; RSS has **7** `<item>`; sitemap has **16** `<loc>` (2 index + 2 static + 7 posts
-+ 5 projects; `/404` excluded); robots references `https://sooth.dev/sitemap.xml`; all 7 RSS
+Pass: `xml ok`; RSS has **7** `<item>`; sitemap has **16** `<loc>` (4 static: `/`, `/about`,
+`/blog`, `/projects`; 7 posts; 5 projects; `/404` excluded); robots references `https://sooth.dev/sitemap.xml`; all 7 RSS
 `<link>` values are absolute live URLs; RSS `<pubDate>` parses as RFC-822.
 
 **AC-12 — 404 route served as 404.**
@@ -673,9 +689,11 @@ done
 grep -c '^# ' src/content/projects/*.md          # must be 0 for every file
 for f in dist/projects/*/index.html; do printf '%s h1=' "$f"; grep -o '<h1' "$f" | wc -l; done
 ```
-Pass: each body 600–900 words; each file has the five required section headings (artefact is a
-`##` only where §5 marks one; Olla's GAP means the artefact is absent — note it in the PR); zero
-body `# H1`; exactly one `<h1>` in every built project page.
+Pass: each body 600–900 words; every file has the four mandatory headings (**The problem**, **My
+role and what I owned**, **The hard part**, **Outcome**), the fourth required page section
+(**What I'd do differently**) on the four pages where §5 does not mark it GAP, and an **Artefact**
+heading on Aztecscan, Okutama, Bot Busters and Boloney (Olla's artefact is a documented GAP — note
+it in the PR); zero body `# H1`; exactly one `<h1>` in every built project page.
 
 **AC-14 — posts length, artefact, tradeoff.**
 ```bash
@@ -752,8 +770,8 @@ find dist/_astro -name '*.css' -print0 | xargs -0 -r gzip -c | wc -c
 ```
 Pass: every route's HTML+CSS (gzipped, separately summed) ≤122880 bytes; first-view payload
 (HTML+CSS+JS+fonts+above-fold images, excluding `/cv.pdf` and the avatar source) ≤256000 bytes;
-**no file in `public/` >102400 bytes** (currently `public/cv.pdf` = 80.8 KB is the largest; the
-98.5 KB avatar is moved to `src/assets/` and served as a responsive set); CSS ≤60 KB gzipped; the
+**no file in `public/` >102400 bytes** (today `public/ava.png` = 98.5 KiB is the largest; it moves to `src/assets/` and is served as
+a responsive set, leaving `public/cv.pdf` = 80.8 KiB as the largest); CSS ≤60 KB gzipped; the
 script prints a per-route table.
 
 ---
@@ -778,4 +796,155 @@ Restated from §1 so a reviewer can reject a PR that wanders:
 
 What may change beyond the file list: nothing. If an implementer believes a file outside §3 must
 change, they state why in the PR before changing it.
+
+---
+
+## 8. Open questions and the defaults in force
+
+Every question has a default. Builders proceed on the default unless Mauro overrides it in this
+issue before the named stage. "Cost of being wrong" is the work the override creates.
+
+| # | Question | Default in force | Cost of being wrong |
+|---|---|---|---|
+| Q1 | Keep gruvbox? | **Yes.** Keep the palette, ration it per D2 (§3.4). | A second design pass: new tokens, new OG cards, re-check contrast. |
+| Q2 | Two home variants or one? | **Two at stage 2**, mobile 360 and desktop 1280 each, Mauro picks, then one build. | One extra design day. Picking wrong without variants costs a full implement/review cycle on the most important page. |
+| Q3 | Home shows 3 featured or all 5? | **3**: Aztecscan, The Grid, Bot Busters. `featured: true` on bot-busters.md; home filters `featured`, sorts by `order`, slices 3. `/projects` still shows all 5. | Olla and Boloney are one click away on `/projects`; if Mauro wants Olla on the home page, it is a one-line frontmatter change. Reviewers who expect "all work" on `/` see curation instead — that is the intent. |
+| Q4 | Availability statement? | **"Open to freelance platform and infrastructure work."** One line in the hero, same sentence on `/about`. Availability, not a CV objective. | If Mauro is not available, the site misrepresents him; it is one string in two files. If he wants a different wording ("contract", "not currently available"), it is one string. |
+| Q5 | Olla Finance has no research file. Ship it? | **Ship the weaker claim**: frontend + backend on the shared platform, 70 commits in `olla-ui`, 3-developer team as owner-asserted in `cv.md`; no artefact, no hard-part section invention. Mark every Olla claim `owner-asserted` in `docs/content-audit.md`. | Olla reads thinner than the other four pages. If Mauro supplies a repo/PR or the missing deep-dive, replace the weaker rows in §5.5; if a claim is actually wrong, Quality's audit catches it before merge. |
+| Q6 | Which contact email? | **`sooth.dev@gmail.com`** (already in the footer and on the current home page). `/cv.md` keeps its own `mauro@eijsenring.com`; the about page does not reproduce it. | If Mauro prefers the CV address publicly, one string changes. Copying both invites confusion and exposes an address he may keep for applications only. |
+| Q7 | Name The Grid / publish ADR-0008 cost figures? | **"A Web3 data platform"**, no cost figures, ADR-0008 described as a proposal he wrote and defended, not a shipped decision. | The Okutama page is less specific than it could be. If sign-off arrives, add the name and the numbers later; publishing without it is a client-relationship risk and a factual-audit failure (`04:483-486`, `:387-392`). |
+| Q8 | New post #11's title is 74 chars, over AC-9's 60. | **Shorten the H1 to "Migrating ingress to the Gateway API"** (39); keep "one environment at a time" as the first sentence of the description. | Loses a phrase from the title, keeps it in the description and body. The alternative — a `seoTitle` schema field — adds a field for one post, so it is rejected. |
+| Q9 | Two implementers (SOOT-26) or three (SOOT-25 stage 3)? | **Two**, per §3.8: A = shell/system/home/about/404, B = templates/endpoints/content. Content is B's first job. | B is the long pole; if Foreman wants the work order's 3a/3b/3c, split B's content files into 3c without changing any interface. |
+| Q10 | Must direct `/404.html` return 404? | **Yes, keep nginx `internal`.** AC-12 tests a random unknown URL, never `/404.html` directly. | Test scripts that fetch `/404.html` see 404 and may misread it as a broken page. That is documented in AC-12. |
+| Q11 | How do two PRs reach `main` without a half-built deploy? | **Integration branch `feat/portfolio-v2`.** A and B open PRs against it; only after both are green and QA passes does the Verifier open/merge the single PR to `main`. | One extra merge step. The alternative — two PRs straight to `main` — deploys a shell with no content (or new content with the old shell) to sooth.dev between merges. |
+| Q12 | Word-count method when a post is mostly code? | `wc -w` over the body **including** fenced blocks; the target is a floor, never a licence to pad. | A post could hit 1,000 words mostly in a transcript. Quality rejects that: one artefact per post is the requirement; 1,000 words of prose remains the intent. |
+| Q13 | Publish dates for the three new posts. | `local-dev-environment` 2026-10-20, `gateway-api-migration` 2026-10-21, `fresh-clone-bugs` 2026-10-22 (all after 2026-09-07, so RSS order is deterministic). | RSS order changes; no gate. |
+
+---
+
+## 9. Risk list
+
+Likelihood/impact are for this repo, this stage.
+
+| # | Risk | L | I | Mitigation | Detected by |
+|---|---|---|---|---|---|
+| R1 | **Astro 7 pitfalls.** `src/content/config.ts` instead of `content.config.ts`; `entry.slug` instead of `entry.id`; `ViewTransitions` instead of `ClientRouter`; a `tailwind.config.mjs`; unbundled Shiki theme; Node <22.12. | M | H | Keep the existing five invariants (`AGENTS.md` "Pitfalls"), do not "fix" by downgrading. New endpoint files use `getCollection` + `entry.id`. | AC-1 build; grep in review |
+| R2 | **nginx serves the 404 page with status 200.** `error_page 404 /404.html;` preserves 404 unless someone adds `=200`. Astro must emit `dist/404.html` at the root, not `dist/404/index.html`. | M | H | Leave `nginx.conf` unchanged; verify after deploy. If Astro emits `404/index.html`, set `build.format` deliberately or move the page — do not add `=200`. | AC-12 live curl |
+| R3 | **OG image mechanism without a dependency.** Static PNGs can drift from the design, be forgotten for a new page type, or ship at the wrong size. | M | M | Six files enumerated in §3.6; `scripts/verify.mjs meta` fails when a route's `og:image` is missing or not 1200×630; Designer produces them in stage 2 from the same tokens. | AC-10, AC-9 |
+| R4 | **Two implementers in one stage.** Shared shell files, duplicated components, incompatible metadata props, merge conflicts in `global.css`/`BaseLayout`. | H | M | File ownership table (§3.8) + frozen interfaces (§3.7) + A lands shell before B's templates + integration branch (Q11). Content files are conflict-free. | PR diff; review rejects cross-owner edits |
+| R5 | **Deploy trigger on `main`.** Merging is deploying; a half-finished branch on `main` is a live regression; a force-push destroys review history. | M | H | Never force-push `main`; one integration PR; Verifier merges only after AC-1…AC-20 evidence; deploy only the sooth.dev app. | Status check after merge; live AC-2/AC-12 |
+| R6 | **Content honesty.** 600–900 words tempts padding; Olla has no research; cost/scale numbers are tempting. | H | H | §5 anchors + GAP rows; `docs/content-audit.md` per claim; Quality diffs every claim against research; AC-17. | Stage 4 verdict |
+| R7 | **Token/contrast regression.** `prose.css` keeps a hex; a new card uses `text-gruvbox-gray`; a "nice" animation sneaks in. | M | M | AC-5/AC-4 greps; semantic tokens only; contrast table (§11.3) as the approved set. | AC-4, AC-5, Lighthouse a11y |
+| R8 | **Endpoints need `site`.** `Astro.site` is `undefined` without `site` in `astro.config.mjs`; `/rss.xml` and `/sitemap.xml` throw at build. | M | H | `site: 'https://sooth.dev'` is part of A's first commit; endpoint code uses `new URL(path, Astro.site)` only. | AC-1 build; AC-11 |
+| R9 | **Canonical vs trailing slash.** Astro emits directory URLs; links may omit the slash; canonical with a slash then 404s on a strict host. | M | L | Canonical is built from the request path with the trailing slash stripped except `/`; nginx serves both `/about` and `/about/`. | AC-9 equality check |
+| R10 | **Avatar move breaks a URL.** `/ava.png` disappears when the file moves to `src/assets/`. | L | L | Not in AC-2's URL list; the only consumer is the home page (rewritten in the same PR). If an external hotlink matters, keep a copy in `public/` — but that reintroduces the 98.5 KB file. | grep; AC-19/AC-20 |
+| R11 | **Lighthouse can't run in the sandbox** (no network for `npx`, missing shared libs). | M | M | chromium is present; `npx lighthouse` needs a one-time download. If offline, run Lighthouse from the Verifier host against the preview server and say so; never lower the thresholds. | AC-18 command output |
+| R12 | **`<details>` mobile menu resets** on ClientRouter navigation. | L | L | Acceptable: the panel closes on navigation, which is the desired behaviour; no JS state to manage. | AC-6 manual click |
+| R13 | **ClientRouter view-transition + reduced motion.** The fade may still run under the emulated media query if written on the pseudo-element. | M | M | Put the `none` override inside the same `prefers-reduced-motion` block, targeting `::view-transition-old(root)`/`(root)`. | AC-4 motion script |
+
+---
+
+## 10. How this spec gets executed
+
+### 10.1 Stage 2 (Designer) inputs
+
+- §3.4 token names and values (may adjust values, not names).
+- §4 content outlines (band order and questions).
+- OG cards: six 1200×630 PNGs at `public/og/*.png` (§3.6).
+- Two home variants at 360/1280 plus project and post page renders, all from a real browser.
+
+### 10.2 Stage 3 (Implementers A and B)
+
+1. Both branch from `main` @ the spec merge commit; target `feat/portfolio-v2` (Q11).
+2. A: tokens + shell + components + home/about/404 + OG/robots + README. Open PR against the
+   integration branch with AC-1/4/5/6/7/8/10/12/19/20 evidence for the routes it owns.
+3. B (in parallel, content first): rewrite 9 files, create 3 posts, write
+   `docs/content-audit.md`; then templates/endpoints on top of A's components. Open PR with
+   AC-13…AC-17 + AC-11 evidence.
+4. Integration PR: after both, run AC-1…AC-20 once, end to end, on the combined branch. Paste
+   outputs in the PR.
+5. Do not merge to `main`; that is the Verifier's step (R5).
+
+### 10.3 What this spec deliberately did not do
+
+- **No build was run on the spec host.** `bun` is not installed here (`bun --version` → command
+  not found; node is v22.22.3). AC-1, AC-13…AC-20 are therefore *specified*, not yet observed.
+  The first implementer run is the first real build.
+- **No browser rendering.** No screenshots, no Lighthouse, no 360 px measurement were produced at
+  spec time; `dist/` is absent from a fresh clone. AC-6…AC-8, AC-18/19 are for stage 2/3/6.
+- **No content written.** Nothing in `src/content/**` was changed; §5 is a plan, not copy.
+- **No client-repo clone.** Only one GitHub API count was taken (`ollafinance/olla-ui`,
+  `author=Mautjee`, 70 commits). No commit list was pulled; the resume note's filter constraint
+  was respected.
+- **`/home/mauro/portfolio-research/` was read, never copied.** Nothing from it is in the repo;
+  `git status` shows only this spec file (checked before each commit).
+
+---
+
+## 11. Appendix — evidence for §2
+
+### 11.1 Commands used (all run at `main` @ `1e24b34`, fresh clone, 2026-10-27)
+
+```bash
+git clone git@github.com:Mautjee/sooth.dev-landing.git && git log --oneline -1
+find src public -type f | sort
+grep -n "title>\|Developer &amp; Tech\|animate-\|hover:scale-105\|ava.png\|<img\|<h1\|<h2" src/pages/index.astro
+grep -n "max-w-3xl" src/layouts/BaseLayout.astro src/components/Nav.astro
+grep -rn "text-3xl md:text-4xl font-bold text-gruvbox-yellow" src/
+grep -rn "prefers-reduced-motion" src/ | wc -l
+grep -rnE "og:|twitter:|canonical|sitemap|robots" src/ astro.config.mjs | wc -l
+grep -rn "skip\|focus-visible\|focus:" src/styles/ | head
+grep -rn 'loading="lazy"' src/ | wc -l
+for f in src/content/blog/*.md src/content/projects/*.md; do printf "%s %s\n" "$(wc -w < "$f")" "$f"; done
+grep -rn "^# " src/content/projects/
+grep -rn "#[0-9a-fA-F]\{6\}" src/styles/prose.css
+sed -n '50,95p' src/styles/global.css
+grep -n "dist/" .gitignore
+node -e '<relative-luminance contrast script>'   # see §11.3
+gh api "repos/ollafinance/olla-ui/commits?author=Mautjee&per_page=1" --include
+```
+
+### 11.2 Absence checks (the "0 matches" claims)
+
+| Check | Result |
+|---|---|
+| `grep -rn "prefers-reduced-motion" src/` | 0 |
+| `grep -rnE "og:|twitter:|canonical|sitemap|robots" src/ astro.config.mjs` | 0 |
+| `grep -rn "skip\|focus-visible" src/styles/` | 0 |
+| `grep -rn 'loading="lazy"' src/` | 0 |
+| `grep -rcF '```' src/content/blog/*.md` | 0 in all four |
+| `grep -rnE '!\[' src/content` | 0 |
+| `grep -cE "sm:\|md:\|lg:" src/components/Nav.astro` | 0 |
+| `find src/pages -iname '*404*' -o -iname '*rss*' -o -iname '*sitemap*'` | 0 |
+| `git ls-files | grep -c '^dist/'` | 0 (`dist/` gitignored) |
+
+### 11.3 Contrast, recomputed (WCAG 2.x relative luminance)
+
+| Foreground | Background | Ratio | Verdict |
+|---|---|---|---|
+| `#928374` (`--color-gruvbox-gray`) | `#282828` (`--color-bg`) | **4.02:1** | fails 4.5 — must not be used for text |
+| `#928374` | `#3c3836` (`--color-surface-2`) | **3.16:1** | fails |
+| `#d3869b` (`--color-gruvbox-purple`) | `#3c3836` | **4.23:1** | fails for inline code |
+| `#bdae93` (`--color-muted`) | `#3c3836` | **5.32:1** | passes |
+| `#bdae93` | `#282828` | **6.77:1** | passes |
+| `#e0a3b8` (`--color-code`) | `#3c3836` | **5.58:1** | passes |
+| `#fabd2f` (`--color-accent`) | `#282828` | **8.69:1** | passes |
+| `#fabd2f` | `#3c3836` | **6.84:1** | passes |
+| `#83a598` (`--color-link`) | `#282828` | **5.48:1** | passes |
+
+Large text (≥24 px, or ≥18.66 px bold) needs 3:1; everything above clears that too. Focus ring uses
+`--color-accent` on both surfaces (8.69 / 6.84), clearing AC-7's 3:1.
+
+### 11.4 What could not be verified from this host
+
+- `bun` absent → no `bun install`, no `bun run build`, no `dist/` to inspect (D13).
+- No chromium run → no rendered check of nav at 360 px, no screenshots, no Lighthouse.
+- Client repos (`aztec-scan/*`, `Kryha/*`, `The-Grid-Data/*`) were not cloned; every code-level
+  anchor in §5 comes from `/home/mauro/portfolio-research/`, not from a fresh git log. The one
+  exception is the `ollafinance/olla-ui` commit count via the GitHub API.
+- Research has no Olla deep-dive; §5.5 marks the gap instead of filling it.
+
+If any of these matter before build starts, the Foreman should say so in this issue; the spec is
+written to survive them (every anchored claim is checkable by the Quality Reviewer, and every
+GAP is an explicit softer claim rather than an unsupported one).
 
